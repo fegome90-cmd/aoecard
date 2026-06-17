@@ -49,11 +49,11 @@ public enum Economy {
     ///      to avoid exponential blow-up (should not happen in v0.6).
     public static func solve(cost: ResourceAmount, ready: [ResourceInPlay]) -> Payment? {
         if cost.isFree { return Payment(tappedResourceIds: [], waste: .zero) }
-        let n = ready.count
-        if n == 0 { return nil }
+        let readyCount = ready.count
+        if readyCount == 0 { return nil }
 
         // Safety fallback for pathologically large boards.
-        if n > 16 {
+        if readyCount > 16 {
             return greedySolve(cost: cost, ready: ready)
         }
 
@@ -72,24 +72,24 @@ public enum Economy {
     /// Enumerate subsets, return the best (or nil if none covers).
     private static func enumerateBestCover(cost: ResourceAmount,
                                            ready: [ResourceInPlay]) -> Candidate? {
-        let n = ready.count
-        var best: Candidate? = nil
+        let count = ready.count
+        var best: Candidate?
 
-        // Iterate over all bitmasks 1..(2^n - 1).
-        for mask in 1..<(1 << n) {
+        // Iterate over all bitmasks 1..(2^count - 1).
+        for mask in 1..<(1 << count) {
             var indices: [Int] = []
             var sumFood = 0, sumWood = 0, sumGold = 0
-            var i = 0
-            var m = mask
-            while m != 0 {
-                if m & 1 == 1 {
-                    indices.append(i)
-                    sumFood += ready[i].production.food
-                    sumWood += ready[i].production.wood
-                    sumGold += ready[i].production.gold
+            var bit = 0
+            var bits = mask
+            while bits != 0 {
+                if bits & 1 == 1 {
+                    indices.append(bit)
+                    sumFood += ready[bit].production.food
+                    sumWood += ready[bit].production.wood
+                    sumGold += ready[bit].production.gold
                 }
-                m >>= 1
-                i += 1
+                bits >>= 1
+                bit += 1
             }
             guard sumFood >= cost.food, sumWood >= cost.wood, sumGold >= cost.gold else {
                 continue
@@ -124,20 +124,19 @@ public enum Economy {
         var tapped: [UUID] = []
         var summed = ResourceAmount.zero
         // Order by descending total production then by id for determinism.
-        let sorted = ready.enumerated().sorted {
-            if $0.element.production.total != $1.element.production.total {
-                return $0.element.production.total > $1.element.production.total
+        let sorted = ready.sorted {
+            if $0.production.total != $1.production.total {
+                return $0.production.total > $1.production.total
             }
-            return $0.element.id.uuidString < $1.element.id.uuidString
+            return $0.id.uuidString < $1.id.uuidString
         }
-        for (idx, r) in sorted {
+        for resource in sorted {
             if remaining.isFree { break }
-            summed = summed + r.production
-            remaining.food -= r.production.food
-            remaining.wood -= r.production.wood
-            remaining.gold -= r.production.gold
-            tapped.append(r.id)
-            _ = idx
+            summed += resource.production
+            remaining.food -= resource.production.food
+            remaining.wood -= resource.production.wood
+            remaining.gold -= resource.production.gold
+            tapped.append(resource.id)
         }
         if remaining.food > 0 || remaining.wood > 0 || remaining.gold > 0 {
             return nil
@@ -152,7 +151,7 @@ public enum Economy {
 
     private static func sum(_ resources: [ResourceInPlay], indices: [Int]) -> ResourceAmount {
         var total = ResourceAmount.zero
-        for i in indices { total = total + resources[i].production }
+        for idx in indices { total += resources[idx].production }
         return total
     }
 
@@ -165,9 +164,9 @@ public enum Economy {
     public static func commit(_ payment: Payment, into player: inout PlayerState,
                               wasteSink: inout ResourceAmount) {
         let tapSet = Set(payment.tappedResourceIds)
-        for i in player.resources.indices where tapSet.contains(player.resources[i].id) {
-            player.resources[i].isReady = false
+        for index in player.resources.indices where tapSet.contains(player.resources[index].id) {
+            player.resources[index].isReady = false
         }
-        wasteSink = wasteSink + payment.waste
+        wasteSink += payment.waste
     }
 }

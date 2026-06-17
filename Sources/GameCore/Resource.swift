@@ -65,6 +65,16 @@ public struct ResourceAmount: Codable, Hashable, Sendable {
                        gold: lhs.gold - rhs.gold)
     }
 
+    /// Compound assignment, enabling `total += other` (component-wise add).
+    public static func += (lhs: inout ResourceAmount, rhs: ResourceAmount) {
+        lhs = lhs + rhs
+    }
+
+    /// Compound assignment, enabling `total -= other` (component-wise sub).
+    public static func -= (lhs: inout ResourceAmount, rhs: ResourceAmount) {
+        lhs = lhs - rhs
+    }
+
     /// Clamps all components to >= 0. Used when a weak-resource penalty would
     /// push production below zero.
     public func clampedToNonNegative() -> ResourceAmount {
@@ -78,10 +88,10 @@ extension ResourceAmount {
     private enum CodingKeys: String, CodingKey { case food, wood, gold }
 
     public init(from decoder: Decoder) throws {
-        let c = try decoder.container(keyedBy: CodingKeys.self)
-        food = try c.decodeIfPresent(Int.self, forKey: .food) ?? 0
-        wood = try c.decodeIfPresent(Int.self, forKey: .wood) ?? 0
-        gold = try c.decodeIfPresent(Int.self, forKey: .gold) ?? 0
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        food = try container.decodeIfPresent(Int.self, forKey: .food) ?? 0
+        wood = try container.decodeIfPresent(Int.self, forKey: .wood) ?? 0
+        gold = try container.decodeIfPresent(Int.self, forKey: .gold) ?? 0
     }
 }
 
