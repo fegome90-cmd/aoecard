@@ -54,4 +54,35 @@ final class ExporterTests: XCTestCase {
         XCTAssertTrue(dirB.lastPathComponent == "run_20260101_1201")
         try? FileManager.default.removeItem(at: root)
     }
+
+    // MARK: - REL-04: collision suffix exhaustion must throw, not loop forever
+
+    /// The collision guard caps suffixes at 9999. Pre-creating 9999 sibling
+    /// directories must cause the 10000th `makeRunDir` to throw rather than
+    /// loop indefinitely or silently reuse a path. Before this test, the cap
+    /// existed but was unverified.
+    func testMakeRunDirThrowsAfterSuffixExhaustion() throws {
+        let (exporters, root) = try makeTempExporters()
+        let stamp = "20260101_1300"
+
+        // Pre-create all 10000 slots: the natural name + _1.._9999.
+        // Use lightweight empty dirs to keep the test fast enough.
+        for suffix in 0...9999 {
+            let name = suffix == 0 ? "run_\(stamp)" : "run_\(stamp)_\(suffix)"
+            try FileManager.default.createDirectory(
+                at: root.appendingPathComponent(name),
+                withIntermediateDirectories: true)
+        }
+
+        // The 10001st call must throw (guard: suffix <= 9999).
+        XCTAssertThrowsError(try exporters.makeRunDir(timestamp: stamp),
+            "makeRunDir must throw after exhausting the 9999-suffix cap, not loop forever") { error in
+            // The thrown error should be the guard's NSError.
+            let nsError = error as NSError
+            XCTAssertEqual(nsError.domain, "Exporters",
+                "expected the Exporters-domain exhaustion error")
+        }
+
+        try? FileManager.default.removeItem(at: root)
+    }
 }

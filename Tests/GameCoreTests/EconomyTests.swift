@@ -198,4 +198,38 @@ final class EconomyTests: XCTestCase {
         Economy.commit(p2, into: &player, wasteSink: &waste)
         XCTAssertEqual(waste.gold, 2, "1 + 1 wasted across two payments")
     }
+
+    // MARK: - REL-02: greedy fallback path coverage
+
+    /// When `ready.count > 16`, `solve` MUST fall back to `greedySolve` (to
+    /// avoid exponential 2^n enumeration) and return a valid Payment — not nil,
+    /// not a crash. Before this test, the n>16 path had zero direct coverage.
+    func testSolveFallsBackToGreedyForLargeBoards() {
+        // 20 single-gold resources (n > 16 triggers greedySolve).
+        let board = (0..<20).map { idx in
+            ResourceInPlay(cardId: "gold_\(idx)",
+                          production: ResourceAmount(gold: 1))
+        }
+        let cost = ResourceAmount(gold: 3)
+
+        let payment = Economy.solve(cost: cost, ready: board)
+
+        XCTAssertNotNil(payment, "greedy fallback must find a payment for 3 gold with 20 single-gold resources")
+        XCTAssertEqual(payment?.tappedResourceIds.count, 3, "must tap exactly 3 resources")
+        XCTAssertEqual(payment?.waste.gold, 0, "no waste when 3 single-gold resources cover cost 3 exactly")
+    }
+
+    /// The greedy fallback must return nil when the large board genuinely
+    /// cannot cover the cost — same contract as the enumerate path.
+    func testSolveGreedyReturnsNilForImpossibleLargeBoard() {
+        // 20 resources that produce only gold, but cost needs wood.
+        let board = (0..<20).map { idx in
+            ResourceInPlay(cardId: "gold_\(idx)",
+                          production: ResourceAmount(gold: 1))
+        }
+        let cost = ResourceAmount(wood: 1)
+
+        let payment = Economy.solve(cost: cost, ready: board)
+        XCTAssertNil(payment, "greedy fallback must return nil when cost cannot be covered")
+    }
 }

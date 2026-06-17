@@ -267,4 +267,40 @@ final class KeywordTests: XCTestCase {
         XCTAssertEqual(r1.margin, r2.margin)
         XCTAssertEqual(r1.attackerWins, r2.attackerWins)
     }
+
+    // MARK: - REL-05: keyword application order is load-bearing and must be pinned
+
+    /// The deterministic ORDER in which `resolve()` applies keyword modifiers
+    /// is load-bearing for battle outcomes — reordering the blocks would change
+    /// results. This test pins the documented sequence by activating multiple
+    /// keywords in one battle and asserting the exact `keywordsApplied` list.
+    /// Order in resolve(): iniciativa → carga → asedio → guarnecer.
+    func testResolveAppliesKeywordsInDocumentedOrder() {
+        // Attacker has iniciativa + carga + asedio; defender has guarnecer.
+        // Iniciativa fires because the defender's defense (2) <= attacker attack (5).
+        let attacker = [unit(id: "atk",
+                             keywords: [.init(name: .iniciativa),
+                                        .init(name: .carga, magnitude: 1),
+                                        .init(name: .asedio, magnitude: 1)],
+                             attack: 5, defense: 5)]
+        let defender = [unit(id: "def",
+                             keywords: [.init(name: .guarnecer, magnitude: 1)],
+                             attack: 1, defense: 2)]
+        let target = province(defense: 2)
+        let ctx = BattleContext(attacker: attacker.map { BattleUnit(ref: $0, side: .attacker) },
+                                defender: defender.map { BattleUnit(ref: $0, side: .defender) },
+                                target: .province(target),
+                                terrainTraits: [],
+                                isAssault: true)
+
+        let result = resolver.resolve(ctx)
+
+        // The applied-keyword list must match the documented order exactly.
+        // If a future refactor reorders the keyword blocks, this test fails —
+        // which is the point: the order is a battle-determinism invariant.
+        XCTAssertEqual(result.keywordsApplied,
+                       ["iniciativa", "carga_1", "asedio_1", "guarnecer_1"],
+                       "Keyword modifiers must apply in the documented order: " +
+                       "iniciativa → carga → asedio → guarnecer. Reordering changes outcomes (REL-05).")
+    }
 }
