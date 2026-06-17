@@ -267,7 +267,7 @@ struct SimCLI {
 
         // First province broken before round 8.
         let brokenEarly = allGames.filter {
-            if let r = $0.firstProvinceBrokenRound { return r < 8 }
+            if let round = $0.firstProvinceBrokenRound { return round < 8 }
             return false
         }.count
         let brokenEarlyRate = allGames.isEmpty ? 0 : Double(brokenEarly) / Double(allGames.count)
