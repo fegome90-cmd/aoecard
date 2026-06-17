@@ -22,11 +22,28 @@ public struct Exporters {
     }
 
     /// Make a timestamped run directory and return its URL.
+    ///
+    /// The timestamp has minute granularity, so two runs in the same clock
+    /// minute would share a directory and the second would silently overwrite
+    /// the first's games.csv. The collision guard probes the natural name first;
+    /// if it already exists, an incrementing suffix (`_1`, `_2`, …) is appended
+    /// until a free slot is found. (audit BH-02)
     public func makeRunDir(timestamp: String? = nil) throws -> URL {
         let ts = timestamp ?? Self.timestamp()
-        let dir = outputRoot.appendingPathComponent("run_\(ts)")
-        try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
-        return dir
+        var candidate = outputRoot.appendingPathComponent("run_\(ts)")
+        var suffix = 0
+        while FileManager.default.fileExists(atPath: candidate.path) {
+            suffix += 1
+            guard suffix <= 9999 else {
+                throw NSError(
+                    domain: "Exporters", code: 1,
+                    userInfo: [NSLocalizedDescriptionKey:
+                        "run-dir collision exhausted at \(candidate.path)"])
+            }
+            candidate = outputRoot.appendingPathComponent("run_\(ts)_\(suffix)")
+        }
+        try FileManager.default.createDirectory(at: candidate, withIntermediateDirectories: true)
+        return candidate
     }
 
     /// Write all artifacts for a run.
