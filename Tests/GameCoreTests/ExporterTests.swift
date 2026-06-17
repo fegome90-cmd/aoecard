@@ -19,14 +19,14 @@ final class ExporterTests: XCTestCase {
     /// run's games.csv clobbered the first (silent data loss).
     func testMakeRunDirCollidesSafelyWithSuffix() throws {
         let (exporters, root) = try makeTempExporters()
-        let ts = "20260101_1200"
+        let stamp = "20260101_1200"
 
-        let dir1 = try exporters.makeRunDir(timestamp: ts)
+        let dir1 = try exporters.makeRunDir(timestamp: stamp)
         // Plant a marker file to prove the first run survives the second.
         let marker1 = dir1.appendingPathComponent("games.csv")
         try "run-1-data".write(to: marker1, atomically: true, encoding: .utf8)
 
-        let dir2 = try exporters.makeRunDir(timestamp: ts)
+        let dir2 = try exporters.makeRunDir(timestamp: stamp)
         let marker2 = dir2.appendingPathComponent("games.csv")
         try "run-2-data".write(to: marker2, atomically: true, encoding: .utf8)
 

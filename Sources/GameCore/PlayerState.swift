@@ -171,8 +171,8 @@ public struct PlayerState: Sendable {
     /// that every resource tapped by `Economy.commit` is untapped exactly once
     /// per round by `readyAll`, plus at most the documented effect-driven untaps.
     public mutating func readyAll() {
-        for i in resources.indices { resources[i].isReady = true }
-        for i in units.indices { units[i].isReady = true }
+        for resourceIdx in resources.indices { resources[resourceIdx].isReady = true }
+        for unitIdx in units.indices { units[unitIdx].isReady = true }
     }
 
     /// Resources that are currently ready (untapped).
