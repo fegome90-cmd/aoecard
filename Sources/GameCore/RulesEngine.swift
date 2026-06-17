@@ -309,31 +309,31 @@ public struct RulesEngine {
             let ctx = BattleContext(attacker: attackerUnits, defender: defenderUnits,
                                     target: .province(prov), terrainTraits: prov.traits,
                                     isAssault: true)
-            let r = resolver.resolve(ctx, effects: active, combat: state.rules.combat)
-            counters.keywordUses += r.keywordsApplied.count
+            let result = resolver.resolve(ctx, effects: active, combat: state.rules.combat)
+            counters.keywordUses += result.keywordsApplied.count
 
             var opp = opponent
             // Battle win is distinct from breaking the province (Slice 1.5-A).
-            if r.battleWin {
+            if result.battleWin {
                 counters.assaultsSuccessful += 1
-                if r.rawProvinceDamage == 0 {
+                if result.rawProvinceDamage == 0 {
                     counters.assaultBattleWinsWithZeroRawProvinceDamage += 1
                 }
             }
-            if r.provinceDamage > 0 {
-                counters.provinceDamageDealt += r.provinceDamage
-                opp.provinces[provIdx].applyDamage(r.provinceDamage)
+            if result.provinceDamage > 0 {
+                counters.provinceDamageDealt += result.provinceDamage
+                opp.provinces[provIdx].applyDamage(result.provinceDamage)
                 if opp.provinces[provIdx].isBroken, counters.firstProvinceBrokenRound == nil {
                     counters.firstProvinceBrokenRound = state.round
                 }
             }
-            if !r.attackerLosses.isEmpty {
-                state.players[playerIdx].units.removeAll { r.attackerLosses.contains($0.id) }
-                counters.unitsDestroyed += r.attackerLosses.count
+            if !result.attackerLosses.isEmpty {
+                state.players[playerIdx].units.removeAll { result.attackerLosses.contains($0.id) }
+                counters.unitsDestroyed += result.attackerLosses.count
             }
-            if !r.defenderLosses.isEmpty {
-                opp.units.removeAll { r.defenderLosses.contains($0.id) }
-                counters.unitsDestroyed += r.defenderLosses.count
+            if !result.defenderLosses.isEmpty {
+                opp.units.removeAll { result.defenderLosses.contains($0.id) }
+                counters.unitsDestroyed += result.defenderLosses.count
             }
             // Tap only the participants (Slice 1.5-B). Attackers always tap.
             // Defenders tap if `defenderParticipantsTapAfterBattle`, regardless
@@ -349,7 +349,7 @@ public struct RulesEngine {
                 }
             }
             state.players[targetIdx] = opp
-            return (true, true, r.keywordsApplied.count, false)
+            return (true, true, result.keywordsApplied.count, false)
 
         case .assaultDestiny(let destinyIdx):
             let attacker = state.players[playerIdx]
@@ -365,9 +365,9 @@ public struct RulesEngine {
             let ctx = BattleContext(attacker: attackerUnits, defender: [],
                                     target: .destiny(destiny), terrainTraits: destiny.traits,
                                     isAssault: true)
-            let r = resolver.resolve(ctx, combat: state.rules.combat)
-            counters.keywordUses += r.keywordsApplied.count
-            if r.battleWin {
+            let result = resolver.resolve(ctx, combat: state.rules.combat)
+            counters.keywordUses += result.keywordsApplied.count
+            if result.battleWin {
                 counters.assaultsSuccessful += 1
                 counters.destinyControls += 1
                 state.destinyMap[destinyIdx].controller = playerIdx
@@ -378,7 +378,7 @@ public struct RulesEngine {
                     state.players[playerIdx].units[i].isReady = false
                 }
             }
-            return (true, true, r.keywordsApplied.count, false)
+            return (true, true, result.keywordsApplied.count, false)
 
         case .incursion(let targetIdx):
             let attacker = state.players[playerIdx]

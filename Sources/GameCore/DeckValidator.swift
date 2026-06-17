@@ -126,11 +126,11 @@ public struct DeckValidator: Sendable {
                 "expected \(rules.setup.startingResourceCount) starting resources, found \(deck.startingResourceIds.count)"))
         }
         for id in deck.startingResourceIds {
-            guard let r = cards[id] else {
+            guard let resource = cards[id] else {
                 findings.append(.init(.error, deckId: deckId, "starting resource not found: \(id)"))
                 continue
             }
-            if r.type != .resource {
+            if resource.type != .resource {
                 findings.append(.init(.error, deckId: deckId, "starting card \(id) is not type=resource"))
             }
         }
