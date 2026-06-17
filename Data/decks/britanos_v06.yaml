@@ -1,0 +1,94 @@
+decks:
+  - id: britanos_v06
+    name: Britanos v0.6
+    civilization: britanos
+    strongholdId: stronghold_britanos_burgo_arcos_largos
+    provinceIds:
+      - britanos_colinas_de_gales
+      - britanos_bosques_de_tejo
+      - britanos_burgo_fortificado
+      - britanos_camino_angosto
+    startingResourceIds:
+      - britanos_bosques_de_tejo_res
+      - britanos_mercado_local
+      - britanos_colinas_de_gales_res
+    # Imperio: 40 cartas (16 recursos, 14 unidades, 4 edificios, 4 tecnologías, 2 especiales)
+    empire:
+      # Recursos (16)
+      - britanos_bosques_de_tejo_res
+      - britanos_bosques_de_tejo_res
+      - britanos_bosques_de_tejo_res
+      - britanos_bosques_de_tejo_res
+      - britanos_mercado_local
+      - britanos_mercado_local
+      - britanos_mercado_local
+      - britanos_colinas_de_gales_res
+      - britanos_colinas_de_gales_res
+      - britanos_colinas_de_gales_res
+      - britanos_mina_de_estano
+      - britanos_mina_de_estano
+      - britanos_burgo_productivo
+      - britanos_burgo_productivo
+      - britanos_talleres_de_arqueros
+      - britanos_talleres_de_arqueros
+      # Unidades (14)
+      - britanos_arquero_del_burgo
+      - britanos_arquero_del_burgo
+      - britanos_arquero_del_burgo
+      - britanos_lancero_de_leva
+      - britanos_lancero_de_leva
+      - britanos_escaramuzador
+      - britanos_escaramuzador
+      - britanos_arquero_de_tiro_largo
+      - britanos_arquero_de_tiro_largo
+      - britanos_ballestero_veterano
+      - britanos_guardia_del_burgo
+      - britanos_ingeniero_de_campo
+      - britanos_senor_de_los_arcos_largos
+      - britanos_ariete_ligero
+      # Edificios (4)
+      - britanos_galeria_de_tiro
+      - britanos_galeria_de_tiro
+      - britanos_empalizada_del_burgo
+      - britanos_torre_de_guardia
+      # Tecnologías (4)
+      - britanos_arco_largo_mejorado
+      - britanos_balistica
+      - britanos_empalizadas_reforzadas
+      - britanos_disciplina_de_arqueros
+      # Especiales (2)
+      - britanos_el_cielo_oscurecido
+      - britanos_defensa_de_los_burgos
+    # Tácticas: 25 cartas (6 órdenes, 5 maniobras, 5 reacciones, 4 formaciones, 3 seguidores, 2 campos)
+    tactics:
+      # Órdenes (6)
+      - britanos_descarga_cerrada
+      - britanos_descarga_cerrada
+      - britanos_tiro_a_distancia
+      - britanos_fuego_concentrado
+      - britanos_orden_del_capitan
+      - britanos_flechas_sobre_la_muralla
+      # Maniobras (5)
+      - britanos_reposicionar_linea
+      - britanos_reposicionar_linea
+      - britanos_retirada_a_la_empalizada
+      - britanos_ocupar_la_colina
+      - britanos_linea_de_estacas
+      # Reacciones (5)
+      - britanos_muro_de_picas
+      - britanos_muro_de_picas
+      - britanos_cubrir_la_retirada
+      - britanos_defensa_preparada
+      - britanos_contraataque_desde_la_colina
+      # Formaciones (4)
+      - britanos_linea_de_arcos_largos
+      - britanos_formacion_de_estacas
+      - britanos_guardia_del_burgo_formacion
+      - britanos_disparo_por_rango
+      # Seguidores (3)
+      - britanos_portaestandarte_del_burgo
+      - britanos_aprendices_de_arqueria
+      - britanos_carpinteros_de_campana
+      # Campos de Batalla (2)
+      - britanos_colina_elevada
+      - britanos_bosque_cerrado

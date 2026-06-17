@@ -1,0 +1,182 @@
+cards:
+  # ═══ Cartas Neutrales — set mínimo v0.6 ═══════════════════════════════════
+  # Cartas genéricas reutilizables por cualquier civilización. Mantenemos un
+  # set mínimo para el slice; se amplía conforme los mazos lo necesiten.
+
+  # ─── Recursos neutrales ──────────────────────────────────────────────────
+  - id: neutral_aldea_de_comercio
+    name: Aldea de Comercio
+    civilization: neutral
+    deck: empire
+    type: resource
+    traits: [neutral]
+    production: { food: 1, gold: 1 }
+    balance: { status: stable }
+
+  - id: neutral_bosque_neutral
+    name: Bosque Neutral
+    civilization: neutral
+    deck: empire
+    type: resource
+    traits: [neutral, bosque]
+    production: { wood: 2 }
+    balance: { status: stable }
+
+  - id: neutral_mina_neutral
+    name: Mina Neutral
+    civilization: neutral
+    deck: empire
+    type: resource
+    traits: [neutral, mina]
+    production: { gold: 2 }
+    balance: { status: stable }
+
+  - id: neutral_campo_neutral
+    name: Campo Neutral
+    civilization: neutral
+    deck: empire
+    type: resource
+    traits: [neutral, granja]
+    production: { food: 2 }
+    balance: { status: stable }
+
+  - id: neutral_encrucijada
+    name: Encrucijada
+    civilization: neutral
+    deck: empire
+    type: resource
+    traits: [neutral]
+    production: { wood: 1, gold: 1 }
+    balance: { status: stable }
+
+  # ─── Unidades neutrales ──────────────────────────────────────────────────
+  - id: neutral_mercenarios
+    name: Mercenarios
+    civilization: neutral
+    deck: empire
+    type: unit
+    traits: [neutral, mercenario, infanteria]
+    cost: { gold: 4 }
+    stats: { attack: 3, defense: 3, range: 1 }
+    balance: { status: stable }
+
+  - id: neutral_explorador_neutral
+    name: Explorador Neutral
+    civilization: neutral
+    deck: empire
+    type: unit
+    traits: [neutral, explorador]
+    cost: { gold: 2 }
+    stats: { attack: 1, defense: 2, range: 2 }
+    keywords:
+      - name: alcanceSuperior
+    balance: { status: stable }
+
+  - id: neutral_ballesteros
+    name: Ballesteros
+    civilization: neutral
+    deck: empire
+    type: unit
+    traits: [neutral, arqueria]
+    cost: { wood: 3, gold: 1 }
+    stats: { attack: 3, defense: 2, range: 2 }
+    keywords:
+      - name: alcanceSuperior
+    balance: { status: stable }
+
+  # ─── Edificios neutrales ─────────────────────────────────────────────────
+  - id: neutral_muralla
+    name: Muralla
+    civilization: neutral
+    deck: empire
+    type: building
+    traits: [neutral]
+    cost: { wood: 4, gold: 1 }
+    effects:
+      - id: generic_modifier
+        notes: "Tus unidades defensoras de Provincia obtienen +1 Defensa."
+    balance: { status: stable }
+
+  - id: neutral_silo
+    name: Silo
+    civilization: neutral
+    deck: empire
+    type: building
+    traits: [neutral]
+    cost: { wood: 3 }
+    effects:
+      - id: generic_modifier
+        notes: "Reduce el desperdicio de Comida en 1."
+    balance: { status: stable }
+
+  # ─── Tácticas neutrales ──────────────────────────────────────────────────
+  - id: neutral_avance
+    name: Avance
+    civilization: neutral
+    deck: tactics
+    type: order
+    traits: [neutral]
+    effects:
+      - id: battle_attack_bonus
+        amount: 1
+        targetFilter: {}
+    balance: { status: stable }
+
+  - id: neutral_refuerzos
+    name: Refuerzos
+    civilization: neutral
+    deck: tactics
+    type: order
+    traits: [neutral]
+    effects:
+      - id: untap_units
+        count: 1
+        targetFilter: {}
+    balance: { status: stable }
+
+  - id: neutral_marcha_forzada
+    name: Marcha Forzada
+    civilization: neutral
+    deck: tactics
+    type: maneuver
+    traits: [neutral]
+    effects:
+      - id: generic_modifier
+        notes: "Mueve una unidad a un Destino adyacente."
+    balance: { status: stable }
+
+  - id: neutral_emboscada
+    name: Emboscada
+    civilization: neutral
+    deck: tactics
+    type: reaction
+    traits: [neutral]
+    effects:
+      - id: battle_defense_bonus
+        amount: 2
+        targetFilter: {}
+    balance: { status: stable }
+
+  - id: neutral_estandarte
+    name: Estandarte
+    civilization: neutral
+    deck: tactics
+    type: follower
+    traits: [neutral]
+    effects:
+      - id: generic_modifier
+        notes: "La unidad anfitriona obtiene +1 Ataque y +1 Defensa."
+    balance: { status: stable }
+
+  - id: neutral_llanura_batalla
+    name: Llanura (Campo de Batalla)
+    civilization: neutral
+    deck: tactics
+    type: battlefield
+    traits: [neutral, llanura]
+    effects:
+      - id: battle_attack_bonus
+        amount: 1
+        targetFilter:
+          requireAny: [caballeria, caballeriaArquera]
+    balance: { status: stable }

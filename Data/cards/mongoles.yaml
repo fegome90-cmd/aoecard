@@ -1,0 +1,636 @@
+cards:
+  # ═══ Stronghold ══════════════════════════════════════════════════════════
+  - id: stronghold_mongoles_campamento_del_kan
+    name: Campamento del Kan
+    civilization: mongoles
+    type: stronghold
+    traits: [mongoles]
+    strongWeak:
+      strong: gold
+      weak: wood
+    text:
+      - Puedes incluir cartas Mongoles y Neutrales.
+      - Tus Recursos que produzcan Oro producen +1 Oro.
+      - Tus Recursos que produzcan Madera producen -1 Madera, mínimo 0.
+      - Una vez por ronda, al pagar una carta Mongol de Caballería, Caballería
+        Arquera o Maniobra, puedes pagar hasta 1 Madera como si fueran 2 Oro.
+      - Después de ganar una Incursión con Caballería o Caballería Arquera,
+        puedes enderezar un Recurso que produzca Oro.
+    balance:
+      status: stable
+      notes: Core stronghold. Strong gold economy fuels cavalry tempo.
+
+  # ═══ Provincias (4 exteriores; stronghold = 5ta) ══════════════════════════
+  - id: mongol_estepa_abierta
+    name: Estepa Abierta
+    civilization: mongoles
+    type: province
+    traits: [mongoles, llanura]
+    defense: 4
+    balance: { status: stable }
+
+  - id: mongol_estepa_septentrional
+    name: Estepa Septentrional
+    civilization: mongoles
+    type: province
+    traits: [mongoles, llanura]
+    defense: 4
+    balance: { status: stable }
+
+  - id: mongol_bosque_de_los_kirguises
+    name: Bosque de los Kirguises
+    civilization: mongoles
+    type: province
+    traits: [mongoles, bosque]
+    defense: 5
+    balance: { status: stable }
+
+  - id: mongol_paso_de_los_almirantes
+    name: Paso de los Almirantes
+    civilization: mongoles
+    type: province
+    traits: [mongoles, paso]
+    defense: 5
+    balance: { status: stable }
+
+  - id: mongol_campamento_del_kan_provincia
+    name: Campamento del Kan (Stronghold)
+    civilization: mongoles
+    type: province
+    traits: [mongoles, llanura]
+    defense: 7
+    balance:
+      status: stable
+      notes: Provincia del Stronghold. Se expone tras romper las 4 exteriores.
+
+  # ═══ Recursos (16) ═══════════════════════════════════════════════════════
+  - id: mongol_ruta_de_la_seda
+    name: Ruta de la Seda
+    civilization: mongoles
+    deck: empire
+    type: resource
+    traits: [mongoles]
+    production: { gold: 2 }
+    balance:
+      status: stable
+      notes: 0/0/2 — gold engine, becomes 0/0/3 under the stronghold.
+
+  - id: mongol_planicies_de_la_estepa
+    name: Planicies de la Estepa
+    civilization: mongoles
+    deck: empire
+    type: resource
+    traits: [mongoles]
+    production: { food: 2 }
+    balance: { status: stable }
+
+  - id: mongol_mercado_de_caravanas
+    name: Mercado de Caravanas
+    civilization: mongoles
+    deck: empire
+    type: resource
+    traits: [mongoles]
+    production: { wood: 1, gold: 1 }
+    balance: { status: stable }
+
+  - id: mongol_rebanos_nomadas
+    name: Rebaños Nómadas
+    civilization: mongoles
+    deck: empire
+    type: resource
+    traits: [mongoles]
+    production: { food: 1, gold: 1 }
+    balance: { status: stable }
+
+  - id: mongol_caravanas_tributarias
+    name: Caravanas Tributarias
+    civilization: mongoles
+    deck: empire
+    type: resource
+    traits: [mongoles]
+    production: { gold: 3 }
+    entersTapped: true
+    balance:
+      status: stable
+      notes: 0/0/3, entra girada. Lento pero de alto rendimiento.
+
+  - id: mongol_puestos_de_avanzada
+    name: Puestos de Avanzada
+    civilization: mongoles
+    deck: empire
+    type: resource
+    traits: [mongoles]
+    production: { food: 1, wood: 1 }
+    balance: { status: stable }
+
+  # ═══ Unidades (14) ══════════════════════════════════════════════════════
+  - id: mongol_jinete_explorador
+    name: Jinete Explorador
+    civilization: mongoles
+    deck: empire
+    type: unit
+    traits: [mongoles, caballeria, explorador]
+    cost: { gold: 2 }
+    stats: { attack: 2, defense: 2, range: 1 }
+    keywords:
+      - name: hostigar
+    balance: { status: stable }
+
+  - id: mongol_arquero_a_caballo
+    name: Arquero a Caballo
+    civilization: mongoles
+    deck: empire
+    type: unit
+    traits: [mongoles, caballeriaArquera]
+    cost: { gold: 3 }
+    stats: { attack: 3, defense: 2, range: 2 }
+    keywords:
+      - name: alcanceSuperior
+    balance: { status: stable }
+
+  - id: mongol_mangudai
+    name: Mangudai
+    civilization: mongoles
+    deck: empire
+    type: unit
+    traits: [mongoles, caballeriaArquera, elite]
+    cost: { food: 1, gold: 6 }
+    stats: { attack: 5, defense: 3, range: 3 }
+    keywords:
+      - name: hostigar
+    balance: { status: watch }
+
+  - id: mongol_lancero_ligero
+    name: Lancero Ligero
+    civilization: mongoles
+    deck: empire
+    type: unit
+    traits: [mongoles, lancero]
+    cost: { wood: 2, gold: 1 }
+    stats: { attack: 2, defense: 3, range: 1 }
+    keywords:
+      - name: antiCaballeria
+        magnitude: 2
+    balance: { status: stable }
+
+  - id: mongol_khan_de_guerra
+    name: Khan de Guerra
+    civilization: mongoles
+    deck: empire
+    type: unit
+    traits: [mongoles, caballeria, lider, campeon, unica]
+    cost: { gold: 7 }
+    stats: { attack: 5, defense: 5, range: 1 }
+    keywords:
+      - name: iniciativa
+    abilities:
+      - timing: battle
+        name: Mando del Kan
+        text: >-
+          Una vez por batalla, otra Caballería o Caballería Arquera participante
+          obtiene +2 Ataque. Si la batalla ocurre en Ruta Comercial, Llanura o
+          Destino neutral, obtiene además Hostigar.
+        effects:
+          - id: command_attack_bonus
+            amount: 2
+            traitFilter:
+              requireAny: [caballeria, caballeriaArquera]
+    limits:
+      uniqueInPlay: true
+      maxCopiesInDeck: 1
+    balance:
+      status: watch
+      notes: Campeón Mongol. Vigilar snowball de Incursión y Oro.
+
+  - id: mongol_guardia_del_kan
+    name: Guardia del Kan
+    civilization: mongoles
+    deck: empire
+    type: unit
+    traits: [mongoles, caballeria, guardia]
+    cost: { wood: 1, gold: 5 }
+    stats: { attack: 4, defense: 4, range: 1 }
+    balance: { status: stable }
+
+  - id: mongol_chaman_de_la_estepa
+    name: Chamán de la Estepa
+    civilization: mongoles
+    deck: empire
+    type: unit
+    traits: [mongoles, monje]
+    cost: { gold: 5 }
+    stats: { attack: 1, defense: 3, range: 1 }
+    keywords:
+      - name: conversion
+        magnitude: 2
+    balance: { status: stable }
+
+  - id: mongol_ariete_capturado
+    name: Ariete Capturado
+    civilization: mongoles
+    deck: empire
+    type: unit
+    traits: [mongoles, asedio]
+    cost: { wood: 2, gold: 4 }
+    stats: { attack: 4, defense: 2, range: 1 }
+    keywords:
+      - name: asedio
+        magnitude: 3
+    balance:
+      status: watch
+      notes: >-
+        Puede atacar Provincias si controlas algún Destino. Si no controlas
+        ningún Destino, no puede atacar Provincias.
+
+  # ═══ Edificios (4) ═══════════════════════════════════════════════════════
+  - id: mongol_campamento_movil
+    name: Campamento Móvil
+    civilization: mongoles
+    deck: empire
+    type: building
+    traits: [mongoles]
+    cost: { gold: 4 }
+    effects:
+      - id: generic_modifier
+        notes: "Reduce el coste de la primera Caballería jugada por ronda en 1 Oro."
+    balance: { status: stable }
+
+  - id: mongol_mercado_de_rutas
+    name: Mercado de Rutas
+    civilization: mongoles
+    deck: empire
+    type: building
+    traits: [mongoles]
+    cost: { gold: 4 }
+    effects:
+      - id: untap_resources
+        count: 1
+        produces: gold
+    balance: { status: stable }
+
+  - id: mongol_establo_de_la_estepa
+    name: Establo de la Estepa
+    civilization: mongoles
+    deck: empire
+    type: building
+    traits: [mongoles]
+    cost: { gold: 5 }
+    effects:
+      - id: generic_modifier
+        notes: "Tus Caballerías y Caballerías Arqueras obtienen +1 Ataque al atacar."
+    balance: { status: stable }
+
+  # ═══ Tecnologías (4) ═════════════════════════════════════════════════════
+  - id: mongol_arqueria_montada
+    name: Arquería Montada
+    civilization: mongoles
+    deck: empire
+    type: technology
+    traits: [mongoles]
+    cost: { gold: 6 }
+    effects:
+      - id: battle_attack_bonus
+        amount: 1
+        targetFilter:
+          requireAny: [caballeriaArquera]
+    balance: { status: stable }
+
+  - id: mongol_logistica_nomada
+    name: Logística Nómada
+    civilization: mongoles
+    deck: empire
+    type: technology
+    traits: [mongoles]
+    cost: { gold: 5 }
+    effects:
+      - id: generic_modifier
+        notes: "Una vez por ronda, una Incursión gratuita si controlas un Destino."
+    balance: { status: stable }
+
+  - id: mongol_senales_de_humo
+    name: Señales de Humo
+    civilization: mongoles
+    deck: empire
+    type: technology
+    traits: [mongoles]
+    cost: { gold: 3 }
+    effects:
+      - id: reveal_tactics_top
+        count: 1
+    balance: { status: stable }
+
+  - id: mongol_herreria_ligera
+    name: Herrería Ligera
+    civilization: mongoles
+    deck: empire
+    type: technology
+    traits: [mongoles]
+    cost: { wood: 1, gold: 3 }
+    effects:
+      - id: battle_attack_bonus
+        amount: 1
+        targetFilter:
+          requireAny: [caballeria, caballeriaArquera]
+    balance: { status: stable }
+
+  # ═══ Especiales (2) ══════════════════════════════════════════════════════
+  - id: mongol_dominio_de_las_rutas
+    name: Dominio de las Rutas
+    civilization: mongoles
+    deck: empire
+    type: special
+    traits: [mongoles]
+    cost: { gold: 7 }
+    text:
+      - >-
+        Declara una Incursión gratuita contra una Ruta Comercial o Destino
+        controlado por el rival.
+      - >-
+        Si ganas, endereza hasta 2 Recursos que produzcan Oro. Esos Recursos no
+        pueden pagar otra carta de Tácticas esta ronda.
+    effects:
+      - id: free_incursion
+      - id: untap_resources
+        count: 2
+        produces: gold
+    balance:
+      status: watch
+      notes: Carta de cierre. Vigilar snowball de Oro.
+
+  - id: mongol_retirada_de_la_horda
+    name: Retirada de la Horda
+    civilization: mongoles
+    deck: empire
+    type: special
+    traits: [mongoles]
+    cost: { gold: 5 }
+    effects:
+      - id: untap_units
+        count: 2
+        targetFilter:
+          requireAny: [caballeria, caballeriaArquera]
+    balance: { status: stable }
+
+  # ═══ Órdenes (6) ════════════════════════════════════════════════════════
+  - id: mongol_disparo_al_galope
+    name: Disparo al Galope
+    civilization: mongoles
+    deck: tactics
+    type: order
+    traits: [mongoles]
+    effects:
+      - id: battle_attack_bonus
+        amount: 1
+        targetFilter:
+          requireAny: [caballeriaArquera]
+    balance: { status: stable }
+
+  - id: mongol_flecha_del_kan
+    name: Flecha del Kan
+    civilization: mongoles
+    deck: tactics
+    type: order
+    traits: [mongoles]
+    effects:
+      - id: battle_attack_bonus
+        amount: 2
+        targetFilter:
+          requireAny: [caballeriaArquera]
+    balance: { status: watch }
+
+  - id: mongol_ataque_de_hostigamiento
+    name: Ataque de Hostigamiento
+    civilization: mongoles
+    deck: tactics
+    type: order
+    traits: [mongoles]
+    effects:
+      - id: generic_modifier
+        notes: "Una unidad con Hostigar obtiene +1 Ataque en una Incursión."
+    balance: { status: stable }
+
+  - id: mongol_caza_de_retaguardia
+    name: Caza de Retaguardia
+    civilization: mongoles
+    deck: tactics
+    type: order
+    traits: [mongoles]
+    effects:
+      - id: generic_modifier
+        notes: "Una Caballería obtiene +2 Ataque en una Incursión contra un Destino."
+    balance: { status: stable }
+
+  - id: mongol_orden_de_persecucion
+    name: Orden de Persecución
+    civilization: mongoles
+    deck: tactics
+    type: order
+    traits: [mongoles]
+    effects:
+      - id: generic_modifier
+        notes: "Después de una Incursión exitosa, declara una Incursión gratuita."
+    balance: { status: stable }
+
+  # ═══ Maniobras (5) ═══════════════════════════════════════════════════════
+  - id: mongol_retirada_fingida
+    name: Retirada Fingida
+    civilization: mongoles
+    deck: tactics
+    type: maneuver
+    traits: [mongoles]
+    effects:
+      - id: generic_modifier
+        notes: "Una Caballería obtiene +1 Ataque y Hostigar esta batalla."
+    balance: { status: stable }
+
+  - id: mongol_cruce_de_la_estepa
+    name: Cruce de la Estepa
+    civilization: mongoles
+    deck: tactics
+    type: maneuver
+    traits: [mongoles]
+    effects:
+      - id: generic_modifier
+        notes: "Mueve una unidad a un Destino que controles."
+    balance: { status: stable }
+
+  - id: mongol_rodeo_de_flanco
+    name: Rodeo de Flanco
+    civilization: mongoles
+    deck: tactics
+    type: maneuver
+    traits: [mongoles]
+    effects:
+      - id: generic_modifier
+        notes: "Una Caballería obtiene +2 Ataque contra un Defensor sin Guardia."
+    balance: { status: stable }
+
+  - id: mongol_marcha_nomada
+    name: Marcha Nómada
+    civilization: mongoles
+    deck: tactics
+    type: maneuver
+    traits: [mongoles]
+    effects:
+      - id: untap_resources
+        count: 1
+        produces: gold
+    balance: { status: stable }
+
+  # ═══ Reacciones (5) ══════════════════════════════════════════════════════
+  - id: mongol_dispersarse_al_viento
+    name: Dispersarse al Viento
+    civilization: mongoles
+    deck: tactics
+    type: reaction
+    traits: [mongoles]
+    effects:
+      - id: generic_modifier
+        notes: "Anula el daño de batalla a una unidad con Hostigar."
+    balance: { status: stable }
+
+  - id: mongol_senal_de_humo
+    name: Señal de Humo (Reacción)
+    civilization: mongoles
+    deck: tactics
+    type: reaction
+    traits: [mongoles]
+    effects:
+      - id: reveal_tactics_top
+        count: 2
+    balance: { status: stable }
+
+  - id: mongol_caballos_de_repuesto
+    name: Caballos de Repuesto
+    civilization: mongoles
+    deck: tactics
+    type: reaction
+    traits: [mongoles]
+    effects:
+      - id: battle_defense_bonus
+        amount: 1
+        targetFilter:
+          requireAny: [caballeria, caballeriaArquera]
+    balance: { status: stable }
+
+  - id: mongol_contraataque_de_jinetes
+    name: Contraataque de Jinetes
+    civilization: mongoles
+    deck: tactics
+    type: reaction
+    traits: [mongoles]
+    effects:
+      - id: free_incursion
+    balance: { status: stable }
+
+  # ═══ Formaciones (4) ═════════════════════════════════════════════════════
+  - id: mongol_hostigamiento_circular
+    name: Hostigamiento Circular
+    civilization: mongoles
+    deck: tactics
+    type: formation
+    traits: [mongoles]
+    effects:
+      - id: battle_attack_bonus
+        amount: 1
+        targetFilter:
+          requireAny: [caballeriaArquera]
+    balance: { status: stable }
+
+  - id: mongol_horda_dispersa
+    name: Horda Dispersa
+    civilization: mongoles
+    deck: tactics
+    type: formation
+    traits: [mongoles]
+    effects:
+      - id: battle_defense_bonus
+        amount: 1
+        targetFilter:
+          requireAny: [caballeria, caballeriaArquera]
+    balance: { status: stable }
+
+  - id: mongol_flechas_desde_la_estepa
+    name: Flechas desde la Estepa
+    civilization: mongoles
+    deck: tactics
+    type: formation
+    traits: [mongoles]
+    effects:
+      - id: battle_attack_bonus
+        amount: 2
+        targetFilter:
+          requireAny: [caballeriaArquera]
+    balance: { status: watch }
+
+  - id: mongol_golpe_y_retirada
+    name: Golpe y Retirada
+    civilization: mongoles
+    deck: tactics
+    type: formation
+    traits: [mongoles]
+    effects:
+      - id: suppress_keyword
+        keyword: contraataque
+    balance: { status: stable }
+
+  # ═══ Seguidores (3) ══════════════════════════════════════════════════════
+  - id: mongol_exploradores_de_vanguardia
+    name: Exploradores de Vanguardia
+    civilization: mongoles
+    deck: tactics
+    type: follower
+    traits: [mongoles]
+    effects:
+      - id: generic_modifier
+        notes: "La unidad anfitriona obtiene Hostigar y +1 Alcance."
+    balance: { status: stable }
+
+  - id: mongol_arqueros_de_escolta
+    name: Arqueros de Escolta
+    civilization: mongoles
+    deck: tactics
+    type: follower
+    traits: [mongoles]
+    effects:
+      - id: battle_attack_bonus
+        amount: 1
+        targetFilter:
+          requireAny: [caballeria, caballeriaArquera]
+    balance: { status: stable }
+
+  - id: mongol_portaestandarte_del_kan
+    name: Portaestandarte del Kan
+    civilization: mongoles
+    deck: tactics
+    type: follower
+    traits: [mongoles]
+    effects:
+      - id: generic_modifier
+        notes: "La unidad anfitriona obtiene +1 Ataque y +1 Defensa."
+    balance: { status: stable }
+
+  # ═══ Campos de Batalla (2) ═══════════════════════════════════════════════
+  - id: mongol_llanura_abierta_bf
+    name: Llanura Abierta
+    civilization: mongoles
+    deck: tactics
+    type: battlefield
+    traits: [mongoles, llanura]
+    effects:
+      - id: battle_attack_bonus
+        amount: 1
+        targetFilter:
+          requireAny: [caballeria, caballeriaArquera]
+    balance: { status: stable }
+
+  - id: mongol_viento_de_la_estepa
+    name: Viento de la Estepa
+    civilization: mongoles
+    deck: tactics
+    type: battlefield
+    traits: [mongoles, llanura]
+    effects:
+      - id: generic_modifier
+        notes: "Tus Caballerías obtienen +1 Alcance esta batalla."
+    balance: { status: stable }

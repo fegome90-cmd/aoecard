@@ -1,0 +1,52 @@
+version: "0.6"
+
+# Victory / pacing. Tunable without recompiling.
+# - outerProvincesToBreakBeforeStronghold: with 5 provinces, the 4 outer must
+#   be broken before the Stronghold province is exposed. Lower to 3 to speed up
+#   iteration in the simulator.
+# - maxRounds: exceeding this ends the game as a stall (draw).
+victory:
+  outerProvincesToBreakBeforeStronghold: 2
+  strongholdBreaksToWin: 1
+  maxRounds: 20
+
+decks:
+  empireTotal: 40
+  tacticsTotal: 25
+  empireBreakdown:
+    resource: 16
+    unit: 14
+    building: 4
+    technology: 4
+    special: 2
+  tacticsBreakdown:
+    order: 6
+    maneuver: 5
+    reaction: 5
+    formation: 4
+    follower: 3
+    battlefield: 2
+
+setup:
+  startingEmpireHand: 5
+  startingTacticsHand: 3
+  startingResourceCount: 3
+  provincesPerPlayer: 5
+
+# Combat resolver calibration (Slice 1.5). Tune here without recompiling.
+combat:
+  provinceDamageFromMargin: true
+  battleWinBonusDamage: 2
+  defenderParticipantsTapAfterBattle: true
+  tapOnlyParticipants: true
+  incursionExhaustsDefender: true
+  incursionContestsDestiny: true
+  incursionAppliesKeywords: true
+  casualtyDivisor: 3
+  incursionBaseChance: 0.40
+  incursionChanceSlope: 0.10
+  incursionChanceCap: 0.85
+
+destinyControl:
+  bonusTiming: startOfControllerRound
+  resourceBonusPerRound: 1

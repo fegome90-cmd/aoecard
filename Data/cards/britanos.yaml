@@ -1,0 +1,659 @@
+cards:
+  # ═══ Stronghold ══════════════════════════════════════════════════════════
+  - id: stronghold_britanos_burgo_arcos_largos
+    name: Burgo de los Arcos Largos
+    civilization: britanos
+    type: stronghold
+    traits: [britanos]
+    strongWeak:
+      strong: wood
+      weak: food
+    text:
+      - Puedes incluir cartas Britanas y Neutrales.
+      - Tus Recursos que produzcan Madera producen +1 Madera.
+      - Tus Recursos que produzcan Comida producen -1 Comida, mínimo 0.
+      - Una vez por batalla, si controlas una unidad de Arquería participante
+        con mayor Alcance que todas las unidades enemigas, esa unidad obtiene
+        +1 Ataque.
+      - Tu primera unidad de Caballería cada ronda cuesta +1 Comida.
+    balance:
+      status: stable
+      notes: Posicional y de alcance. Penaliza Caballería.
+
+  # ═══ Provincias (4 exteriores; stronghold = 5ta) ══════════════════════════
+  - id: britanos_colinas_de_gales
+    name: Colinas de Gales
+    civilization: britanos
+    type: province
+    traits: [britanos, colina]
+    defense: 5
+    balance: { status: stable }
+
+  - id: britanos_bosques_de_tejo
+    name: Bosques de Tejo
+    civilization: britanos
+    type: province
+    traits: [britanos, bosque]
+    defense: 4
+    balance: { status: stable }
+
+  - id: britanos_burgo_fortificado
+    name: Burgo Fortificado
+    civilization: britanos
+    type: province
+    traits: [britanos, colina]
+    defense: 5
+    balance: { status: stable }
+
+  - id: britanos_camino_angosto
+    name: Camino Angosto
+    civilization: britanos
+    type: province
+    traits: [britanos, paso]
+    defense: 4
+    balance: { status: stable }
+
+  - id: britanos_ciudadela_de_britania
+    name: Ciudadela de Britania (Stronghold)
+    civilization: britanos
+    type: province
+    traits: [britanos, colina]
+    defense: 7
+    balance:
+      status: stable
+      notes: Provincia del Stronghold.
+
+  # ═══ Recursos (16) ═══════════════════════════════════════════════════════
+  - id: britanos_bosques_de_tejo_res
+    name: Bosques de Tejo
+    civilization: britanos
+    deck: empire
+    type: resource
+    traits: [britanos]
+    production: { wood: 2 }
+    balance:
+      status: stable
+      notes: 0/2/0 — wood engine, becomes 0/3/0 under the stronghold.
+
+  - id: britanos_mercado_local
+    name: Mercado Local
+    civilization: britanos
+    deck: empire
+    type: resource
+    traits: [britanos]
+    production: { wood: 1, gold: 1 }
+    balance: { status: stable }
+
+  - id: britanos_colinas_de_gales_res
+    name: Colinas de Gales
+    civilization: britanos
+    deck: empire
+    type: resource
+    traits: [britanos]
+    production: { food: 1, wood: 1 }
+    balance: { status: stable }
+
+  - id: britanos_mina_de_estano
+    name: Mina de Estaño
+    civilization: britanos
+    deck: empire
+    type: resource
+    traits: [britanos]
+    production: { gold: 2 }
+    balance: { status: stable }
+
+  - id: britanos_burgo_productivo
+    name: Burgo Productivo
+    civilization: britanos
+    deck: empire
+    type: resource
+    traits: [britanos]
+    production: { food: 1, wood: 1, gold: 1 }
+    balance: { status: stable }
+
+  - id: britanos_talleres_de_arqueros
+    name: Talleres de Arqueros
+    civilization: britanos
+    deck: empire
+    type: resource
+    traits: [britanos]
+    production: { wood: 2, gold: 1 }
+    entersTapped: true
+    balance:
+      status: stable
+      notes: 0/2/1, entra girada.
+
+  # ═══ Unidades (14) ══════════════════════════════════════════════════════
+  - id: britanos_arquero_del_burgo
+    name: Arquero del Burgo
+    civilization: britanos
+    deck: empire
+    type: unit
+    traits: [britanos, arqueria]
+    cost: { wood: 3 }
+    stats: { attack: 2, defense: 2, range: 2 }
+    keywords:
+      - name: alcanceSuperior
+    balance: { status: stable }
+
+  - id: britanos_lancero_de_leva
+    name: Lancero de Leva
+    civilization: britanos
+    deck: empire
+    type: unit
+    traits: [britanos, lancero]
+    cost: { wood: 2 }
+    stats: { attack: 1, defense: 3, range: 1 }
+    keywords:
+      - name: antiCaballeria
+        magnitude: 2
+    balance: { status: stable }
+
+  - id: britanos_escaramuzador
+    name: Escaramuzador
+    civilization: britanos
+    deck: empire
+    type: unit
+    traits: [britanos, arqueria]
+    cost: { wood: 2 }
+    stats: { attack: 2, defense: 2, range: 2 }
+    balance: { status: stable }
+
+  - id: britanos_arquero_de_tiro_largo
+    name: Arquero de Tiro Largo
+    civilization: britanos
+    deck: empire
+    type: unit
+    traits: [britanos, arqueria, elite]
+    cost: { wood: 5, gold: 2 }
+    stats: { attack: 4, defense: 2, range: 4 }
+    keywords:
+      - name: alcanceSuperior
+    balance: { status: watch }
+
+  - id: britanos_ballestero_veterano
+    name: Ballestero Veterano
+    civilization: britanos
+    deck: empire
+    type: unit
+    traits: [britanos, arqueria, veterano]
+    cost: { wood: 4, gold: 2 }
+    stats: { attack: 4, defense: 3, range: 3 }
+    keywords:
+      - name: guarnecer
+        magnitude: 1
+    balance: { status: stable }
+
+  - id: britanos_guardia_del_burgo
+    name: Guardia del Burgo
+    civilization: britanos
+    deck: empire
+    type: unit
+    traits: [britanos, infanteria, guardia]
+    cost: { wood: 4 }
+    stats: { attack: 2, defense: 5, range: 1 }
+    keywords:
+      - name: guarnecer
+        magnitude: 2
+    balance: { status: stable }
+
+  - id: britanos_ingeniero_de_campo
+    name: Ingeniero de Campo
+    civilization: britanos
+    deck: empire
+    type: unit
+    traits: [britanos, ingeniero]
+    cost: { wood: 3, gold: 1 }
+    stats: { attack: 1, defense: 3, range: 1 }
+    keywords:
+      - name: reparar
+        magnitude: 2
+    balance: { status: stable }
+
+  - id: britanos_senor_de_los_arcos_largos
+    name: Señor de los Arcos Largos
+    civilization: britanos
+    deck: empire
+    type: unit
+    traits: [britanos, arqueria, lider, campeon, unica]
+    cost: { wood: 8, gold: 4 }
+    stats: { attack: 4, defense: 5, range: 5 }
+    keywords:
+      - name: alcanceSuperior
+    limits:
+      uniqueInPlay: true
+      maxCopiesInDeck: 1
+    balance:
+      status: watch
+      notes: Campeón Britano. Alcance superior masivo.
+
+  - id: britanos_ariete_ligero
+    name: Ariete Ligero
+    civilization: britanos
+    deck: empire
+    type: unit
+    traits: [britanos, asedio]
+    cost: { wood: 5, gold: 2 }
+    stats: { attack: 4, defense: 3, range: 1 }
+    keywords:
+      - name: asedio
+        magnitude: 3
+    balance:
+      status: watch
+      notes: >-
+        +1 Ataque contra Provincia con Edificio o defensor Guardia. +1 Asedio
+        junto a Arquería con Alcance Superior.
+
+  # ═══ Edificios (4) ═══════════════════════════════════════════════════════
+  - id: britanos_galeria_de_tiro
+    name: Galería de Tiro
+    civilization: britanos
+    deck: empire
+    type: building
+    traits: [britanos]
+    cost: { wood: 4, gold: 2 }
+    effects:
+      - id: range_bonus
+        amount: 1
+        targetFilter:
+          requireAny: [arqueria]
+    balance: { status: stable }
+
+  - id: britanos_empalizada_del_burgo
+    name: Empalizada del Burgo
+    civilization: britanos
+    deck: empire
+    type: building
+    traits: [britanos]
+    cost: { wood: 5 }
+    effects:
+      - id: generic_modifier
+        notes: "Tus unidades defensoras de Provincia obtienen +1 Defensa."
+    balance: { status: stable }
+
+  - id: britanos_torre_de_guardia
+    name: Torre de Guardia
+    civilization: britanos
+    deck: empire
+    type: building
+    traits: [britanos]
+    cost: { wood: 6 }
+    effects:
+      - id: generic_modifier
+        notes: "Una Arquería defensora obtiene +2 Alcance."
+    balance: { status: stable }
+
+  # ═══ Tecnologías (4) ═════════════════════════════════════════════════════
+  - id: britanos_arco_largo_mejorado
+    name: Arco Largo Mejorado
+    civilization: britanos
+    deck: empire
+    type: technology
+    traits: [britanos]
+    cost: { wood: 6, gold: 3 }
+    text:
+      - >-
+        Tu primera unidad de Arquería con Alcance 3+ en cada batalla obtiene
+        +1 Alcance. Al atacar Provincia, ignora 1 punto de Defensa por Edificios.
+    effects:
+      - id: range_bonus
+        amount: 1
+        targetFilter:
+          requireAny: [arqueria]
+    balance: { status: watch }
+
+  - id: britanos_balistica
+    name: Balística
+    civilization: britanos
+    deck: empire
+    type: technology
+    traits: [britanos]
+    cost: { wood: 4, gold: 4 }
+    text:
+      - >-
+        Arquería con Alcance Superior +1 Ataque contra Caballería, Caballería
+        Arquera o unidad que hizo Incursión esta ronda.
+    effects:
+      - id: archer_bonus_vs_trait
+        amount: 1
+        trait: caballeria
+    balance: { status: watch }
+
+  - id: britanos_empalizadas_reforzadas
+    name: Empalizadas Reforzadas
+    civilization: britanos
+    deck: empire
+    type: technology
+    traits: [britanos]
+    cost: { wood: 5 }
+    effects:
+      - id: battle_defense_bonus
+        amount: 1
+        targetFilter:
+          requireAny: [infanteria, guardia]
+    balance: { status: stable }
+
+  - id: britanos_disciplina_de_arqueros
+    name: Disciplina de Arqueros
+    civilization: britanos
+    deck: empire
+    type: technology
+    traits: [britanos]
+    cost: { wood: 3, gold: 2 }
+    effects:
+      - id: battle_attack_bonus
+        amount: 1
+        targetFilter:
+          requireAny: [arqueria]
+    balance: { status: stable }
+
+  # ═══ Especiales (2) ══════════════════════════════════════════════════════
+  - id: britanos_el_cielo_oscurecido
+    name: El Cielo Oscurecido
+    civilization: britanos
+    deck: empire
+    type: special
+    traits: [britanos]
+    cost: { wood: 6, gold: 3 }
+    text:
+      - >-
+        Requiere 2+ Arquerías atacando (3+ defendiendo). Tus Arquerías +1
+        Ataque. Si alguna tiene Alcance Superior, la Provincia enemiga -2 Defensa.
+    effects:
+      - id: battle_attack_bonus
+        amount: 1
+        targetFilter:
+          requireAny: [arqueria]
+      - id: province_defense_reduction
+        amount: 2
+    balance:
+      status: watch
+      notes: Carta de cierre de Britanos.
+
+  - id: britanos_defensa_de_los_burgos
+    name: Defensa de los Burgos
+    civilization: britanos
+    deck: empire
+    type: special
+    traits: [britanos]
+    cost: { wood: 6 }
+    effects:
+      - id: untap_units
+        count: 2
+        targetFilter:
+          requireAny: [arqueria, guardia]
+      - id: grant_garrison
+        amount: 1
+        targetFilter:
+          requireAny: [arqueria, guardia]
+    balance: { status: stable }
+
+  # ═══ Órdenes (6) ════════════════════════════════════════════════════════
+  - id: britanos_descarga_cerrada
+    name: Descarga Cerrada
+    civilization: britanos
+    deck: tactics
+    type: order
+    traits: [britanos]
+    effects:
+      - id: battle_attack_bonus
+        amount: 1
+        targetFilter:
+          requireAny: [arqueria]
+    balance: { status: stable }
+
+  - id: britanos_tiro_a_distancia
+    name: Tiro a Distancia
+    civilization: britanos
+    deck: tactics
+    type: order
+    traits: [britanos]
+    effects:
+      - id: generic_modifier
+        notes: "Una Arquería con Alcance Superior asigna 1 daño pre-Presión."
+    balance: { status: stable }
+
+  - id: britanos_fuego_concentrado
+    name: Fuego Concentrado
+    civilization: britanos
+    deck: tactics
+    type: order
+    traits: [britanos]
+    effects:
+      - id: battle_attack_bonus
+        amount: 2
+        targetFilter:
+          requireAny: [arqueria]
+    balance: { status: watch }
+
+  - id: britanos_orden_del_capitan
+    name: Orden del Capitán
+    civilization: britanos
+    deck: tactics
+    type: order
+    traits: [britanos]
+    effects:
+      - id: battle_attack_bonus
+        amount: 1
+        targetFilter: {}
+    balance: { status: stable }
+
+  - id: britanos_flechas_sobre_la_muralla
+    name: Flechas sobre la Muralla
+    civilization: britanos
+    deck: tactics
+    type: order
+    traits: [britanos]
+    effects:
+      - id: province_defense_reduction
+        amount: 1
+    balance: { status: stable }
+
+  # ═══ Maniobras (5) ═══════════════════════════════════════════════════════
+  - id: britanos_reposicionar_linea
+    name: Reposicionar Línea
+    civilization: britanos
+    deck: tactics
+    type: maneuver
+    traits: [britanos]
+    effects:
+      - id: generic_modifier
+        notes: "Mueve una unidad a un Destino que controles."
+    balance: { status: stable }
+
+  - id: britanos_retirada_a_la_empalizada
+    name: Retirada a la Empalizada
+    civilization: britanos
+    deck: tactics
+    type: maneuver
+    traits: [britanos]
+    effects:
+      - id: battle_defense_bonus
+        amount: 2
+        targetFilter: {}
+    balance: { status: stable }
+
+  - id: britanos_ocupar_la_colina
+    name: Ocupar la Colina
+    civilization: britanos
+    deck: tactics
+    type: maneuver
+    traits: [britanos]
+    effects:
+      - id: generic_modifier
+        notes: "Una Arquería obtiene +1 Alcance en Colina."
+    balance: { status: stable }
+
+  - id: britanos_linea_de_estacas
+    name: Línea de Estacas
+    civilization: britanos
+    deck: tactics
+    type: maneuver
+    traits: [britanos]
+    cost: { wood: 2 }
+    text:
+      - Caballería atacante pierde Carga esta batalla.
+      - >-
+        En Provincia propia, Río, Paso o Bosque, una unidad atacante con
+        Hostigar o Contraataque pierde esa keyword.
+    effects:
+      - id: cancel_charge
+      - id: suppress_keyword
+        keyword: hostigar
+    balance: { status: watch }
+
+  # ═══ Reacciones (5) ══════════════════════════════════════════════════════
+  - id: britanos_muro_de_picas
+    name: Muro de Picas
+    civilization: britanos
+    deck: tactics
+    type: reaction
+    traits: [britanos]
+    effects:
+      - id: battle_defense_bonus
+        amount: 2
+        targetFilter:
+          requireAny: [lancero, infanteria]
+    balance: { status: stable }
+
+  - id: britanos_cubrir_la_retirada
+    name: Cubrir la Retirada
+    civilization: britanos
+    deck: tactics
+    type: reaction
+    traits: [britanos]
+    effects:
+      - id: generic_modifier
+        notes: "Anula el daño de batalla a una Arquería."
+    balance: { status: stable }
+
+  - id: britanos_defensa_preparada
+    name: Defensa Preparada
+    civilization: britanos
+    deck: tactics
+    type: reaction
+    traits: [britanos]
+    effects:
+      - id: battle_defense_bonus
+        amount: 1
+        targetFilter: {}
+    balance: { status: stable }
+
+  - id: britanos_contraataque_desde_la_colina
+    name: Contraataque desde la Colina
+    civilization: britanos
+    deck: tactics
+    type: reaction
+    traits: [britanos]
+    effects:
+      - id: free_incursion
+    balance: { status: stable }
+
+  # ═══ Formaciones (4) ═════════════════════════════════════════════════════
+  - id: britanos_linea_de_arcos_largos
+    name: Línea de Arcos Largos
+    civilization: britanos
+    deck: tactics
+    type: formation
+    traits: [britanos]
+    effects:
+      - id: range_bonus
+        amount: 1
+        targetFilter:
+          requireAny: [arqueria]
+    balance: { status: stable }
+
+  - id: britanos_formacion_de_estacas
+    name: Formación de Estacas
+    civilization: britanos
+    deck: tactics
+    type: formation
+    traits: [britanos]
+    effects:
+      - id: cancel_charge
+    balance: { status: stable }
+
+  - id: britanos_guardia_del_burgo_formacion
+    name: Guardia del Burgo (Formación)
+    civilization: britanos
+    deck: tactics
+    type: formation
+    traits: [britanos]
+    effects:
+      - id: battle_defense_bonus
+        amount: 1
+        targetFilter:
+          requireAny: [guardia, infanteria]
+    balance: { status: stable }
+
+  - id: britanos_disparo_por_rango
+    name: Disparo por Rango
+    civilization: britanos
+    deck: tactics
+    type: formation
+    traits: [britanos]
+    effects:
+      - id: battle_attack_bonus
+        amount: 1
+        targetFilter:
+          requireAny: [arqueria]
+    balance: { status: stable }
+
+  # ═══ Seguidores (3) ══════════════════════════════════════════════════════
+  - id: britanos_portaestandarte_del_burgo
+    name: Portaestandarte del Burgo
+    civilization: britanos
+    deck: tactics
+    type: follower
+    traits: [britanos]
+    effects:
+      - id: generic_modifier
+        notes: "La unidad anfitriona obtiene +1 Ataque y +1 Defensa."
+    balance: { status: stable }
+
+  - id: britanos_aprendices_de_arqueria
+    name: Aprendices de Arquería
+    civilization: britanos
+    deck: tactics
+    type: follower
+    traits: [britanos]
+    effects:
+      - id: range_bonus
+        amount: 1
+        targetFilter: {}
+    balance: { status: stable }
+
+  - id: britanos_carpinteros_de_campana
+    name: Carpinteros de Campaña
+    civilization: britanos
+    deck: tactics
+    type: follower
+    traits: [britanos]
+    effects:
+      - id: generic_modifier
+        notes: "La unidad anfitriona obtiene Reparar 1."
+    balance: { status: stable }
+
+  # ═══ Campos de Batalla (2) ═══════════════════════════════════════════════
+  - id: britanos_colina_elevada
+    name: Colina Elevada
+    civilization: britanos
+    deck: tactics
+    type: battlefield
+    traits: [britanos, colina]
+    effects:
+      - id: range_bonus
+        amount: 1
+        targetFilter:
+          requireAny: [arqueria]
+    balance: { status: stable }
+
+  - id: britanos_bosque_cerrado
+    name: Bosque Cerrado
+    civilization: britanos
+    deck: tactics
+    type: battlefield
+    traits: [britanos, bosque]
+    effects:
+      - id: cancel_charge
+    balance: { status: stable }

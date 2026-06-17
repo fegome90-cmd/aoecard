@@ -1,0 +1,217 @@
+# Estrategias v0.6 — 5 por civilización.
+# priorities son pesos de decisión en [0, 1]. El StrategyAI pondera acciones
+# asequibles por su prioridad correspondiente y decide de forma determinista.
+
+strategies:
+  # ─── Mongoles ─────────────────────────────────────────────────────────────
+  - name: Ruta-Incursión
+    civilization: mongoles
+    priorities:
+      playResource: 1.0
+      playUnit: 0.8
+      playBuilding: 0.3
+      attackProvince: 0.4
+      attackDestiny: 0.9
+      incursion: 1.0
+      assault: 0.4
+      defend: 0.5
+      holdTactics: 0.7
+      buildWonder: 0.1
+
+  - name: Horda Mangudai
+    civilization: mongoles
+    priorities:
+      playResource: 0.8
+      playUnit: 1.0
+      playBuilding: 0.2
+      attackProvince: 0.6
+      attackDestiny: 0.7
+      incursion: 0.7
+      assault: 0.8
+      defend: 0.3
+      holdTactics: 0.4
+      buildWonder: 0.1
+
+  - name: Khan Tempo
+    civilization: mongoles
+    priorities:
+      playResource: 0.9
+      playUnit: 1.0
+      playBuilding: 0.4
+      attackProvince: 0.7
+      attackDestiny: 0.6
+      incursion: 0.6
+      assault: 0.8
+      defend: 0.4
+      holdTactics: 0.5
+      buildWonder: 0.1
+
+  - name: Asedio Capturado
+    civilization: mongoles
+    priorities:
+      playResource: 0.9
+      playUnit: 0.7
+      playBuilding: 0.5
+      attackProvince: 1.0
+      attackDestiny: 0.3
+      incursion: 0.3
+      assault: 1.0
+      defend: 0.4
+      holdTactics: 0.5
+      buildWonder: 0.2
+
+  - name: Control de Destinos
+    civilization: mongoles
+    priorities:
+      playResource: 0.9
+      playUnit: 0.8
+      playBuilding: 0.5
+      attackProvince: 0.3
+      attackDestiny: 1.0
+      incursion: 0.6
+      assault: 0.3
+      defend: 0.6
+      holdTactics: 0.6
+      buildWonder: 0.2
+
+  # ─── Britanos ─────────────────────────────────────────────────────────────
+  - name: Fortaleza de Arcos
+    civilization: britanos
+    priorities:
+      playResource: 0.9
+      playUnit: 0.9
+      playBuilding: 0.7
+      attackProvince: 0.3
+      attackDestiny: 0.4
+      incursion: 0.3
+      assault: 0.4
+      defend: 1.0
+      holdTactics: 0.7
+      buildWonder: 0.3
+
+  - name: Empuje de Ariete
+    civilization: britanos
+    priorities:
+      playResource: 0.9
+      playUnit: 0.9
+      playBuilding: 0.6
+      attackProvince: 1.0
+      attackDestiny: 0.3
+      incursion: 0.3
+      assault: 1.0
+      defend: 0.4
+      holdTactics: 0.5
+      buildWonder: 0.2
+
+  - name: Control de Colinas
+    civilization: britanos
+    priorities:
+      playResource: 0.9
+      playUnit: 0.8
+      playBuilding: 0.7
+      attackProvince: 0.4
+      attackDestiny: 0.8
+      incursion: 0.4
+      assault: 0.5
+      defend: 0.9
+      holdTactics: 0.6
+      buildWonder: 0.3
+
+  - name: Cielo Oscurecido
+    civilization: britanos
+    priorities:
+      playResource: 0.9
+      playUnit: 1.0
+      playBuilding: 0.5
+      attackProvince: 0.9
+      attackDestiny: 0.4
+      incursion: 0.3
+      assault: 0.9
+      defend: 0.6
+      holdTactics: 0.4
+      buildWonder: 0.2
+
+  - name: Anti-Incursión
+    civilization: britanos
+    priorities:
+      playResource: 0.8
+      playUnit: 0.8
+      playBuilding: 0.8
+      attackProvince: 0.3
+      attackDestiny: 0.4
+      incursion: 0.2
+      assault: 0.4
+      defend: 1.0
+      holdTactics: 0.8
+      buildWonder: 0.3
+
+  # ─── Mapuches ─────────────────────────────────────────────────────────────
+  - name: Defensa Territorial
+    civilization: mapuches
+    priorities:
+      playResource: 0.9
+      playUnit: 0.8
+      playBuilding: 0.7
+      attackProvince: 0.3
+      attackDestiny: 0.4
+      incursion: 0.4
+      assault: 0.3
+      defend: 1.0
+      holdTactics: 0.7
+      buildWonder: 0.3
+
+  - name: Anfibio Frontera
+    civilization: mapuches
+    priorities:
+      playResource: 0.9
+      playUnit: 1.0
+      playBuilding: 0.5
+      attackProvince: 0.5
+      attackDestiny: 0.9
+      incursion: 0.8
+      assault: 0.4
+      defend: 0.6
+      holdTactics: 0.5
+      buildWonder: 0.2
+
+  - name: Malón Contraataque
+    civilization: mapuches
+    priorities:
+      playResource: 0.8
+      playUnit: 0.9
+      playBuilding: 0.5
+      attackProvince: 0.6
+      attackDestiny: 0.7
+      incursion: 1.0
+      assault: 0.5
+      defend: 0.7
+      holdTactics: 0.6
+      buildWonder: 0.2
+
+  - name: Toqui Midrange
+    civilization: mapuches
+    priorities:
+      playResource: 0.9
+      playUnit: 1.0
+      playBuilding: 0.6
+      attackProvince: 0.7
+      attackDestiny: 0.6
+      incursion: 0.6
+      assault: 0.8
+      defend: 0.6
+      holdTactics: 0.5
+      buildWonder: 0.2
+
+  - name: Atrición Alimentaria
+    civilization: mapuches
+    priorities:
+      playResource: 1.0
+      playUnit: 0.8
+      playBuilding: 0.8
+      attackProvince: 0.4
+      attackDestiny: 0.5
+      incursion: 0.5
+      assault: 0.4
+      defend: 0.9
+      holdTactics: 0.7
+      buildWonder: 0.4

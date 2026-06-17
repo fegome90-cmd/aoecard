@@ -1,0 +1,27 @@
+# Mapa de Destino v0.6 — pool de destinos por categoría.
+# El simulador elige uno de cada categoría por partida, de forma determinista
+# a partir de la seed.
+#
+# Cada destino se referencia por id de carta (definido abajo) y lleva traits
+# que afectan combate (terreno). Los destinos en sí no se incluyen en mazos;
+# son cartas de tipo `destiny` declaradas aquí.
+
+tradeRoutes:
+  - destiny_ruta_de_la_seda
+  - destiny_camino_real
+
+naturalTerrains:
+  - destiny_bosques_de_las_ardenas
+  - destiny_humedales_del_sur_dest
+
+militaryPositions:
+  - destiny_colina_fortificada
+  - destiny_paso_estrecho
+
+sacredOrMonuments:
+  - destiny_monasterio_en_ruinas
+  - destiny_sitio_de_maravilla
+
+waterBorders:
+  - destiny_rio_biobio
+  - destiny_costa_lafkenche

@@ -1,0 +1,23 @@
+.build/
+.swiftpm/
+Packages/
+*.xcodeproj
+xcuserdata/
+DerivedData/
+.netrc
+
+# Generated simulation output (kept out of git; reproduce via SimCLI)
+Output/simulations/
+
+# macOS
+.DS_Store
+# Local Pi runtime state
+.atl/
+
+# Local pi agent runtime state
+.pi/
+
+# Local agent/tool runtime state (never commit session/context state)
+.claude/
+.trifecta/
+.fork/

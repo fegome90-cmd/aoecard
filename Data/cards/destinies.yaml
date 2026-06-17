@@ -1,0 +1,95 @@
+cards:
+  # ═══ Rutas Comerciales ════════════════════════════════════════════════════
+  - id: destiny_ruta_de_la_seda
+    name: Ruta de la Seda
+    civilization: neutral
+    type: destiny
+    destinyCategory: tradeRoute
+    traits: [neutral, rutaComercial]
+    defense: 3
+    balance: { status: stable }
+
+  - id: destiny_camino_real
+    name: Camino Real
+    civilization: neutral
+    type: destiny
+    destinyCategory: tradeRoute
+    traits: [neutral, rutaComercial]
+    defense: 3
+    balance: { status: stable }
+
+  # ═══ Terrenos Naturales ═══════════════════════════════════════════════════
+  - id: destiny_bosques_de_las_ardenas
+    name: Bosques de las Ardenas
+    civilization: neutral
+    type: destiny
+    destinyCategory: naturalTerrain
+    traits: [neutral, bosque]
+    defense: 4
+    balance: { status: stable }
+
+  - id: destiny_humedales_del_sur_dest
+    name: Humedales del Sur
+    civilization: neutral
+    type: destiny
+    destinyCategory: naturalTerrain
+    traits: [neutral, humedal]
+    defense: 4
+    balance: { status: stable }
+
+  # ═══ Posiciones Militares ════════════════════════════════════════════════
+  - id: destiny_colina_fortificada
+    name: Colina Fortificada
+    civilization: neutral
+    type: destiny
+    destinyCategory: militaryPosition
+    traits: [neutral, colina]
+    defense: 5
+    balance: { status: stable }
+
+  - id: destiny_paso_estrecho
+    name: Paso Estrecho
+    civilization: neutral
+    type: destiny
+    destinyCategory: militaryPosition
+    traits: [neutral, paso]
+    defense: 5
+    balance: { status: stable }
+
+  # ═══ Lugares Sagrados / Monumentales ═════════════════════════════════════
+  - id: destiny_monasterio_en_ruinas
+    name: Monasterio en Ruinas
+    civilization: neutral
+    type: destiny
+    destinyCategory: sacredOrMonument
+    traits: [neutral, monasterio]
+    defense: 4
+    balance: { status: stable }
+
+  - id: destiny_sitio_de_maravilla
+    name: Sitio de Maravilla
+    civilization: neutral
+    type: destiny
+    destinyCategory: sacredOrMonument
+    traits: [neutral, monasterio]
+    defense: 6
+    balance: { status: stable }
+
+  # ═══ Fronteras de Agua ═══════════════════════════════════════════════════
+  - id: destiny_rio_biobio
+    name: Río Biobío
+    civilization: neutral
+    type: destiny
+    destinyCategory: waterBorder
+    traits: [neutral, rio]
+    defense: 4
+    balance: { status: stable }
+
+  - id: destiny_costa_lafkenche
+    name: Costa Lafkenche
+    civilization: neutral
+    type: destiny
+    destinyCategory: waterBorder
+    traits: [neutral, costa]
+    defense: 4
+    balance: { status: stable }

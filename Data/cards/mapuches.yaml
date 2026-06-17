@@ -1,0 +1,658 @@
+cards:
+  # ═══ Stronghold ══════════════════════════════════════════════════════════
+  - id: stronghold_mapuches_frontera_biobio
+    name: Frontera del Biobío
+    civilization: mapuches
+    type: stronghold
+    traits: [mapuches]
+    strongWeak:
+      strong: food
+      weak: gold
+    text:
+      - Puedes incluir cartas Mapuches y Neutrales.
+      - Tus Recursos que produzcan Comida producen +1 Comida.
+      - Tus Recursos que produzcan Oro producen -1 Oro, mínimo 0.
+      - >-
+        Una vez por ronda, después de defender con éxito una Provincia o un
+        Destino de Bosque, Río, Costa, Lago, Humedal o Paso, puedes enderezar
+        una unidad Mapuche participante con coste 3 o menos.
+      - La unidad enderezada así no puede declarar Contraataque esa ronda.
+      - >-
+        Tus unidades Anfibio pueden atacar Destinos de agua como si estuvieran
+        adyacentes a una Provincia propia no rota.
+      - Tus Tecnologías con coste de Oro cuestan +1 Oro.
+    balance:
+      status: stable
+      notes: Defensa activa, Anfibio, contraataque de frontera.
+
+  # ═══ Provincias (4 exteriores; stronghold = 5ta) ══════════════════════════
+  - id: mapuches_ribera_del_biobio
+    name: Ribera del Biobío
+    civilization: mapuches
+    type: province
+    traits: [mapuches, rio]
+    defense: 5
+    balance: { status: stable }
+
+  - id: mapuches_bosque_del_sur
+    name: Bosque del Sur
+    civilization: mapuches
+    type: province
+    traits: [mapuches, bosque]
+    defense: 4
+    balance: { status: stable }
+
+  - id: mapuches_paso_cordillerano
+    name: Paso Cordillerano
+    civilization: mapuches
+    type: province
+    traits: [mapuches, paso]
+    defense: 5
+    balance: { status: stable }
+
+  - id: mapuches_rucas_del_valle
+    name: Rucas del Valle
+    civilization: mapuches
+    type: province
+    traits: [mapuches, granja]
+    defense: 4
+    balance: { status: stable }
+
+  - id: mapuches_frontera_del_biobio_provincia
+    name: Frontera del Biobío (Stronghold)
+    civilization: mapuches
+    type: province
+    traits: [mapuches, rio]
+    defense: 7
+    balance:
+      status: stable
+      notes: Provincia del Stronghold.
+
+  # ═══ Recursos (16) ═══════════════════════════════════════════════════════
+  - id: mapuches_rucas_del_valle_res
+    name: Rucas del Valle
+    civilization: mapuches
+    deck: empire
+    type: resource
+    traits: [mapuches]
+    production: { food: 2 }
+    balance:
+      status: stable
+      notes: 2/0/0 — food engine, becomes 3/0/0 under the stronghold.
+
+  - id: mapuches_campos_de_papa
+    name: Campos de Papa
+    civilization: mapuches
+    deck: empire
+    type: resource
+    traits: [mapuches]
+    production: { food: 2 }
+    balance: { status: stable }
+
+  - id: mapuches_bosque_del_sur_res
+    name: Bosque del Sur
+    civilization: mapuches
+    deck: empire
+    type: resource
+    traits: [mapuches]
+    production: { food: 1, wood: 1 }
+    balance: { status: stable }
+
+  - id: mapuches_paso_del_biobio
+    name: Paso del Biobío
+    civilization: mapuches
+    deck: empire
+    type: resource
+    traits: [mapuches]
+    production: { food: 1, wood: 1 }
+    balance: { status: stable }
+
+  - id: mapuches_humedales_del_sur_res
+    name: Humedales del Sur
+    civilization: mapuches
+    deck: empire
+    type: resource
+    traits: [mapuches]
+    production: { food: 1, wood: 1 }
+    balance: { status: stable }
+
+  - id: mapuches_botin_de_frontera
+    name: Botín de Frontera
+    civilization: mapuches
+    deck: empire
+    type: resource
+    traits: [mapuches]
+    production: { food: 1, gold: 1 }
+    balance: { status: stable }
+
+  # ═══ Unidades (14) ══════════════════════════════════════════════════════
+  - id: mapuches_weichafe_de_frontera
+    name: Weichafe de Frontera
+    civilization: mapuches
+    deck: empire
+    type: unit
+    traits: [mapuches, infanteria]
+    cost: { food: 3 }
+    stats: { attack: 2, defense: 3, range: 1 }
+    keywords:
+      - name: contraataque
+    balance: { status: stable }
+
+  - id: mapuches_lanza_del_biobio
+    name: Lanza del Biobío
+    civilization: mapuches
+    deck: empire
+    type: unit
+    traits: [mapuches, lancero]
+    cost: { food: 2, wood: 1 }
+    stats: { attack: 2, defense: 3, range: 1 }
+    keywords:
+      - name: antiCaballeria
+        magnitude: 2
+    balance: { status: stable }
+
+  - id: mapuches_cona_lafkenche
+    name: Cona Lafkenche
+    civilization: mapuches
+    deck: empire
+    type: unit
+    traits: [mapuches, infanteria, anfibio]
+    cost: { food: 4, wood: 1 }
+    stats: { attack: 3, defense: 3, range: 1 }
+    keywords:
+      - name: anfibio
+    balance: { status: stable }
+
+  - id: mapuches_guardia_del_paso
+    name: Guardia del Paso
+    civilization: mapuches
+    deck: empire
+    type: unit
+    traits: [mapuches, infanteria, guardia]
+    cost: { food: 5, wood: 1 }
+    stats: { attack: 2, defense: 5, range: 1 }
+    keywords:
+      - name: guarnecer
+        magnitude: 1
+    balance: { status: stable }
+
+  - id: mapuches_explorador_del_bosque
+    name: Explorador del Bosque
+    civilization: mapuches
+    deck: empire
+    type: unit
+    traits: [mapuches, explorador]
+    cost: { food: 2 }
+    stats: { attack: 1, defense: 2, range: 1 }
+    balance: { status: stable }
+
+  - id: mapuches_caballeria_de_frontera
+    name: Caballería de Frontera
+    civilization: mapuches
+    deck: empire
+    type: unit
+    traits: [mapuches, caballeria]
+    cost: { food: 5, gold: 1 }
+    stats: { attack: 4, defense: 3, range: 1 }
+    keywords:
+      - name: contraataque
+    balance: { status: watch }
+
+  - id: mapuches_constructor_de_empalizadas
+    name: Constructor de Empalizadas
+    civilization: mapuches
+    deck: empire
+    type: unit
+    traits: [mapuches, ingeniero]
+    cost: { food: 2, wood: 2 }
+    stats: { attack: 1, defense: 3, range: 1 }
+    keywords:
+      - name: reparar
+        magnitude: 2
+    balance: { status: stable }
+
+  - id: mapuches_toqui_de_la_frontera
+    name: Toqui de la Frontera
+    civilization: mapuches
+    deck: empire
+    type: unit
+    traits: [mapuches, infanteria, lider, campeon, unica]
+    cost: { food: 8, wood: 3 }
+    stats: { attack: 4, defense: 6, range: 1 }
+    keywords:
+      - name: contraataque
+    text:
+      - "Mando: otra unidad Mapuche participante obtiene +2 Ataque."
+      - >-
+        Si defiende en Bosque, Río, Costa, Lago, Humedal o Paso, obtiene +2
+        Defensa. Si ataca, solo +1 Defensa.
+    abilities:
+      - timing: battle
+        name: Mando del Toqui
+        text: Otra unidad Mapuche participante obtiene +2 Ataque.
+        effects:
+          - id: command_attack_bonus
+            amount: 2
+            traitFilter:
+              requireAll: [mapuches]
+    limits:
+      uniqueInPlay: true
+      maxCopiesInDeck: 1
+    balance:
+      status: watch
+      notes: Campeón Mapuche. Defensa territorial brutal.
+
+  - id: mapuches_troncos_de_arremetida
+    name: Troncos de Arremetida
+    civilization: mapuches
+    deck: empire
+    type: unit
+    traits: [mapuches, asedio]
+    cost: { food: 5, wood: 3 }
+    stats: { attack: 4, defense: 3, range: 1 }
+    keywords:
+      - name: asedio
+        magnitude: 2
+    text:
+      - No puede participar en Incursiones.
+      - >-
+        Si ataca una Provincia desde un Destino de Río, Bosque, Humedal o Paso
+        que controlas, obtiene +1 Asedio.
+    balance: { status: watch }
+
+  # ═══ Edificios (4) ═══════════════════════════════════════════════════════
+  - id: mapuches_empalizada_territorial
+    name: Empalizada Territorial
+    civilization: mapuches
+    deck: empire
+    type: building
+    traits: [mapuches]
+    cost: { food: 3, wood: 3 }
+    effects:
+      - id: generic_modifier
+        notes: "Tus unidades defensoras de Provincia obtienen +1 Defensa."
+    balance: { status: stable }
+
+  - id: mapuches_puesto_de_vigia_del_paso
+    name: Puesto de Vigía del Paso
+    civilization: mapuches
+    deck: empire
+    type: building
+    traits: [mapuches]
+    cost: { food: 2, wood: 3 }
+    effects:
+      - id: generic_modifier
+        notes: "Una unidad defensora obtiene +2 Alcance."
+    balance: { status: stable }
+
+  - id: mapuches_ruka_de_abastecimiento
+    name: Ruka de Abastecimiento
+    civilization: mapuches
+    deck: empire
+    type: building
+    traits: [mapuches]
+    cost: { food: 4 }
+    effects:
+      - id: untap_resources
+        count: 1
+        produces: food
+    balance: { status: stable }
+
+  # ═══ Tecnologías (4) ═════════════════════════════════════════════════════
+  - id: mapuches_conocimiento_del_terreno
+    name: Conocimiento del Terreno
+    civilization: mapuches
+    deck: empire
+    type: technology
+    traits: [mapuches]
+    cost: { food: 5, wood: 2 }
+    effects:
+      - id: battle_defense_bonus
+        amount: 1
+        targetFilter:
+          requireAll: [mapuches]
+    balance: { status: stable }
+
+  - id: mapuches_guerra_de_rios
+    name: Guerra de Ríos
+    civilization: mapuches
+    deck: empire
+    type: technology
+    traits: [mapuches]
+    cost: { food: 5, wood: 2 }
+    text:
+      - >-
+        La primera unidad Anfibio que ataques cada batalla obtiene +1 Ataque
+        cuando ataca desde Río, Costa, Lago o Humedal.
+    effects:
+      - id: amphib_first_attacker_bonus
+        amount: 1
+    balance: { status: watch }
+
+  - id: mapuches_organizacion_de_frontera
+    name: Organización de Frontera
+    civilization: mapuches
+    deck: empire
+    type: technology
+    traits: [mapuches]
+    cost: { food: 6 }
+    effects:
+      - id: generic_modifier
+        notes: "Una vez por ronda, endereza una unidad Mapuche con coste 3-."
+    balance: { status: stable }
+
+  - id: mapuches_adaptacion_a_la_caballeria
+    name: Adaptación a la Caballería
+    civilization: mapuches
+    deck: empire
+    type: technology
+    traits: [mapuches]
+    cost: { food: 4, gold: 1 }
+    effects:
+      - id: archer_bonus_vs_trait
+        amount: 1
+        trait: caballeria
+    balance: { status: stable }
+
+  # ═══ Especiales (2) ══════════════════════════════════════════════════════
+  - id: mapuches_levantamiento_territorial
+    name: Levantamiento Territorial
+    civilization: mapuches
+    deck: empire
+    type: special
+    traits: [mapuches]
+    cost: { food: 8, wood: 3 }
+    effects:
+      - id: untap_units
+        count: 3
+        targetFilter:
+          requireAll: [mapuches]
+    balance: { status: watch }
+
+  - id: mapuches_malon_de_frontera
+    name: Malón de Frontera
+    civilization: mapuches
+    deck: empire
+    type: special
+    traits: [mapuches]
+    cost: { food: 6, wood: 2 }
+    text:
+      - >-
+        Después de defender con éxito, declara una Incursión gratuita con una
+        unidad Mapuche participante.
+      - >-
+        Si ganas: endereza un Recurso que produzca Comida, o coloca 1 daño
+        sobre una Provincia enemiga adyacente.
+    effects:
+      - id: free_incursion
+      - id: untap_resources
+        count: 1
+        produces: food
+    balance:
+      status: watch
+      notes: Carta de contraataque característica Mapuche.
+
+  # ═══ Órdenes (6) ════════════════════════════════════════════════════════
+  - id: mapuches_golpe_desde_la_orilla
+    name: Golpe desde la Orilla
+    civilization: mapuches
+    deck: tactics
+    type: order
+    traits: [mapuches]
+    text:
+      - Una unidad Mapuche obtiene +2 Ataque.
+      - >-
+        Si tiene Anfibio y atacó desde un Destino de agua que controlabas,
+        asigna 1 daño antes de calcular Presión.
+    effects:
+      - id: battle_attack_bonus
+        amount: 2
+        targetFilter:
+          requireAll: [mapuches]
+    balance: { status: watch }
+
+  - id: mapuches_lanza_al_flanco
+    name: Lanza al Flanco
+    civilization: mapuches
+    deck: tactics
+    type: order
+    traits: [mapuches]
+    effects:
+      - id: battle_attack_bonus
+        amount: 1
+        targetFilter:
+          requireAny: [lancero, infanteria]
+    balance: { status: stable }
+
+  - id: mapuches_empuje_territorial
+    name: Empuje Territorial
+    civilization: mapuches
+    deck: tactics
+    type: order
+    traits: [mapuches]
+    effects:
+      - id: battle_attack_bonus
+        amount: 1
+        targetFilter:
+          requireAll: [mapuches]
+    balance: { status: stable }
+
+  - id: mapuches_ataque_del_toqui
+    name: Ataque del Toqui
+    civilization: mapuches
+    deck: tactics
+    type: order
+    traits: [mapuches]
+    effects:
+      - id: battle_attack_bonus
+        amount: 2
+        targetFilter:
+          requireAny: [lider]
+    balance: { status: stable }
+
+  - id: mapuches_cerrar_la_brecha
+    name: Cerrar la Brecha
+    civilization: mapuches
+    deck: tactics
+    type: order
+    traits: [mapuches]
+    effects:
+      - id: province_defense_reduction
+        amount: 1
+    balance: { status: stable }
+
+  # ═══ Maniobras (5) ═══════════════════════════════════════════════════════
+  - id: mapuches_cruce_del_rio
+    name: Cruce del Río
+    civilization: mapuches
+    deck: tactics
+    type: maneuver
+    traits: [mapuches]
+    effects:
+      - id: generic_modifier
+        notes: "Una unidad Anfibio obtiene +1 Ataque al cruzar un Destino de agua."
+    balance: { status: stable }
+
+  - id: mapuches_senderos_del_bosque
+    name: Senderos del Bosque
+    civilization: mapuches
+    deck: tactics
+    type: maneuver
+    traits: [mapuches]
+    effects:
+      - id: generic_modifier
+        notes: "Una unidad obtiene Hostigar en Bosque."
+    balance: { status: stable }
+
+  - id: mapuches_retirada_al_humedal
+    name: Retirada al Humedal
+    civilization: mapuches
+    deck: tactics
+    type: maneuver
+    traits: [mapuches]
+    effects:
+      - id: generic_modifier
+        notes: "Anula el daño de batalla a una unidad Anfibio."
+    balance: { status: stable }
+
+  - id: mapuches_rodeo_por_la_quebrada
+    name: Rodeo por la Quebrada
+    civilization: mapuches
+    deck: tactics
+    type: maneuver
+    traits: [mapuches]
+    effects:
+      - id: generic_modifier
+        notes: "Una unidad obtiene +2 Ataque al flanquear por Paso."
+    balance: { status: stable }
+
+  # ═══ Reacciones (5) ══════════════════════════════════════════════════════
+  - id: mapuches_terreno_preparado
+    name: Terreno Preparado
+    civilization: mapuches
+    deck: tactics
+    type: reaction
+    traits: [mapuches]
+    effects:
+      - id: battle_defense_bonus
+        amount: 2
+        targetFilter: {}
+    balance: { status: stable }
+
+  - id: mapuches_defensa_de_la_ribera
+    name: Defensa de la Ribera
+    civilization: mapuches
+    deck: tactics
+    type: reaction
+    traits: [mapuches]
+    effects:
+      - id: cancel_charge
+    balance: { status: stable }
+
+  - id: mapuches_contraataque_inmediato
+    name: Contraataque Inmediato
+    civilization: mapuches
+    deck: tactics
+    type: reaction
+    traits: [mapuches]
+    effects:
+      - id: free_incursion
+    balance: { status: stable }
+
+  - id: mapuches_ocultarse_entre_bosques
+    name: Ocultarse entre Bosques
+    civilization: mapuches
+    deck: tactics
+    type: reaction
+    traits: [mapuches]
+    effects:
+      - id: generic_modifier
+        notes: "Anula el daño de batalla a una unidad en Bosque."
+    balance: { status: stable }
+
+  # ═══ Formaciones (4) ═════════════════════════════════════════════════════
+  - id: mapuches_defensa_de_la_frontera
+    name: Defensa de la Frontera
+    civilization: mapuches
+    deck: tactics
+    type: formation
+    traits: [mapuches]
+    effects:
+      - id: battle_defense_bonus
+        amount: 1
+        targetFilter:
+          requireAll: [mapuches]
+    balance: { status: stable }
+
+  - id: mapuches_cerco_del_paso
+    name: Cerco del Paso
+    civilization: mapuches
+    deck: tactics
+    type: formation
+    traits: [mapuches]
+    effects:
+      - id: battle_attack_bonus
+        amount: 1
+        targetFilter:
+          requireAny: [lancero, guardia]
+    balance: { status: stable }
+
+  - id: mapuches_ataque_anfibio_coordinado
+    name: Ataque Anfibio Coordinado
+    civilization: mapuches
+    deck: tactics
+    type: formation
+    traits: [mapuches]
+    effects:
+      - id: amphib_first_attacker_bonus
+        amount: 1
+    balance: { status: watch }
+
+  - id: mapuches_resistencia_territorial
+    name: Resistencia Territorial
+    civilization: mapuches
+    deck: tactics
+    type: formation
+    traits: [mapuches]
+    effects:
+      - id: grant_garrison
+        amount: 1
+        targetFilter:
+          requireAll: [mapuches]
+    balance: { status: stable }
+
+  # ═══ Seguidores (3) ══════════════════════════════════════════════════════
+  - id: mapuches_guias_del_rio
+    name: Guías del Río
+    civilization: mapuches
+    deck: tactics
+    type: follower
+    traits: [mapuches]
+    effects:
+      - id: generic_modifier
+        notes: "La unidad anfitriona obtiene Anfibio."
+    balance: { status: stable }
+
+  - id: mapuches_mensajeros_del_toqui
+    name: Mensajeros del Toqui
+    civilization: mapuches
+    deck: tactics
+    type: follower
+    traits: [mapuches]
+    effects:
+      - id: generic_modifier
+        notes: "La unidad anfitriona obtiene Iniciativa."
+    balance: { status: stable }
+
+  - id: mapuches_constructores_de_empalizadas
+    name: Constructores de Empalizadas
+    civilization: mapuches
+    deck: tactics
+    type: follower
+    traits: [mapuches]
+    effects:
+      - id: generic_modifier
+        notes: "La unidad anfitriona obtiene Reparar 1."
+    balance: { status: stable }
+
+  # ═══ Campos de Batalla (2) ═══════════════════════════════════════════════
+  - id: mapuches_ribera_crecida
+    name: Ribera Crecida
+    civilization: mapuches
+    deck: tactics
+    type: battlefield
+    traits: [mapuches, rio]
+    effects:
+      - id: amphib_first_attacker_bonus
+        amount: 1
+    balance: { status: stable }
+
+  - id: mapuches_bosque_cerrado_del_sur
+    name: Bosque Cerrado del Sur
+    civilization: mapuches
+    deck: tactics
+    type: battlefield
+    traits: [mapuches, bosque]
+    effects:
+      - id: cancel_charge
+    balance: { status: stable }

@@ -1,0 +1,94 @@
+decks:
+  - id: mapuches_v06
+    name: Mapuches v0.6
+    civilization: mapuches
+    strongholdId: stronghold_mapuches_frontera_biobio
+    provinceIds:
+      - mapuches_ribera_del_biobio
+      - mapuches_bosque_del_sur
+      - mapuches_paso_cordillerano
+      - mapuches_rucas_del_valle
+    startingResourceIds:
+      - mapuches_rucas_del_valle_res
+      - mapuches_bosque_del_sur_res
+      - mapuches_paso_del_biobio
+    # Imperio: 40 cartas (16 recursos, 14 unidades, 4 edificios, 4 tecnologías, 2 especiales)
+    empire:
+      # Recursos (16)
+      - mapuches_rucas_del_valle_res
+      - mapuches_rucas_del_valle_res
+      - mapuches_rucas_del_valle_res
+      - mapuches_rucas_del_valle_res
+      - mapuches_campos_de_papa
+      - mapuches_campos_de_papa
+      - mapuches_campos_de_papa
+      - mapuches_bosque_del_sur_res
+      - mapuches_bosque_del_sur_res
+      - mapuches_bosque_del_sur_res
+      - mapuches_paso_del_biobio
+      - mapuches_paso_del_biobio
+      - mapuches_humedales_del_sur_res
+      - mapuches_humedales_del_sur_res
+      - mapuches_botin_de_frontera
+      - mapuches_botin_de_frontera
+      # Unidades (14)
+      - mapuches_weichafe_de_frontera
+      - mapuches_weichafe_de_frontera
+      - mapuches_weichafe_de_frontera
+      - mapuches_lanza_del_biobio
+      - mapuches_lanza_del_biobio
+      - mapuches_cona_lafkenche
+      - mapuches_cona_lafkenche
+      - mapuches_guardia_del_paso
+      - mapuches_guardia_del_paso
+      - mapuches_explorador_del_bosque
+      - mapuches_caballeria_de_frontera
+      - mapuches_constructor_de_empalizadas
+      - mapuches_toqui_de_la_frontera
+      - mapuches_troncos_de_arremetida
+      # Edificios (4)
+      - mapuches_empalizada_territorial
+      - mapuches_empalizada_territorial
+      - mapuches_puesto_de_vigia_del_paso
+      - mapuches_ruka_de_abastecimiento
+      # Tecnologías (4)
+      - mapuches_conocimiento_del_terreno
+      - mapuches_guerra_de_rios
+      - mapuches_organizacion_de_frontera
+      - mapuches_adaptacion_a_la_caballeria
+      # Especiales (2)
+      - mapuches_levantamiento_territorial
+      - mapuches_malon_de_frontera
+    # Tácticas: 25 cartas (6 órdenes, 5 maniobras, 5 reacciones, 4 formaciones, 3 seguidores, 2 campos)
+    tactics:
+      # Órdenes (6)
+      - mapuches_golpe_desde_la_orilla
+      - mapuches_golpe_desde_la_orilla
+      - mapuches_lanza_al_flanco
+      - mapuches_empuje_territorial
+      - mapuches_ataque_del_toqui
+      - mapuches_cerrar_la_brecha
+      # Maniobras (5)
+      - mapuches_cruce_del_rio
+      - mapuches_cruce_del_rio
+      - mapuches_senderos_del_bosque
+      - mapuches_retirada_al_humedal
+      - mapuches_rodeo_por_la_quebrada
+      # Reacciones (5)
+      - mapuches_terreno_preparado
+      - mapuches_terreno_preparado
+      - mapuches_defensa_de_la_ribera
+      - mapuches_contraataque_inmediato
+      - mapuches_ocultarse_entre_bosques
+      # Formaciones (4)
+      - mapuches_defensa_de_la_frontera
+      - mapuches_cerco_del_paso
+      - mapuches_ataque_anfibio_coordinado
+      - mapuches_resistencia_territorial
+      # Seguidores (3)
+      - mapuches_guias_del_rio
+      - mapuches_mensajeros_del_toqui
+      - mapuches_constructores_de_empalizadas
+      # Campos de Batalla (2)
+      - mapuches_ribera_crecida
+      - mapuches_bosque_cerrado_del_sur

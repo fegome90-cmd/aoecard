@@ -1,0 +1,94 @@
+decks:
+  - id: mongoles_v06
+    name: Mongoles v0.6
+    civilization: mongoles
+    strongholdId: stronghold_mongoles_campamento_del_kan
+    provinceIds:
+      - mongol_estepa_abierta
+      - mongol_estepa_septentrional
+      - mongol_bosque_de_los_kirguises
+      - mongol_paso_de_los_almirantes
+    startingResourceIds:
+      - mongol_ruta_de_la_seda
+      - mongol_planicies_de_la_estepa
+      - mongol_mercado_de_caravanas
+    # Imperio: 40 cartas (16 recursos, 14 unidades, 4 edificios, 4 tecnologías, 2 especiales)
+    empire:
+      # Recursos (16)
+      - mongol_ruta_de_la_seda
+      - mongol_ruta_de_la_seda
+      - mongol_ruta_de_la_seda
+      - mongol_ruta_de_la_seda
+      - mongol_planicies_de_la_estepa
+      - mongol_planicies_de_la_estepa
+      - mongol_planicies_de_la_estepa
+      - mongol_mercado_de_caravanas
+      - mongol_mercado_de_caravanas
+      - mongol_mercado_de_caravanas
+      - mongol_rebanos_nomadas
+      - mongol_rebanos_nomadas
+      - mongol_caravanas_tributarias
+      - mongol_caravanas_tributarias
+      - mongol_puestos_de_avanzada
+      - mongol_puestos_de_avanzada
+      # Unidades (14)
+      - mongol_jinete_explorador
+      - mongol_jinete_explorador
+      - mongol_jinete_explorador
+      - mongol_arquero_a_caballo
+      - mongol_arquero_a_caballo
+      - mongol_arquero_a_caballo
+      - mongol_mangudai
+      - mongol_mangudai
+      - mongol_lancero_ligero
+      - mongol_lancero_ligero
+      - mongol_khan_de_guerra
+      - mongol_guardia_del_kan
+      - mongol_chaman_de_la_estepa
+      - mongol_ariete_capturado
+      # Edificios (4)
+      - mongol_campamento_movil
+      - mongol_campamento_movil
+      - mongol_mercado_de_rutas
+      - mongol_establo_de_la_estepa
+      # Tecnologías (4)
+      - mongol_arqueria_montada
+      - mongol_logistica_nomada
+      - mongol_senales_de_humo
+      - mongol_herreria_ligera
+      # Especiales (2)
+      - mongol_dominio_de_las_rutas
+      - mongol_retirada_de_la_horda
+    # Tácticas: 25 cartas (6 órdenes, 5 maniobras, 5 reacciones, 4 formaciones, 3 seguidores, 2 campos)
+    tactics:
+      # Órdenes (6)
+      - mongol_disparo_al_galope
+      - mongol_disparo_al_galope
+      - mongol_flecha_del_kan
+      - mongol_ataque_de_hostigamiento
+      - mongol_caza_de_retaguardia
+      - mongol_orden_de_persecucion
+      # Maniobras (5)
+      - mongol_retirada_fingida
+      - mongol_retirada_fingida
+      - mongol_cruce_de_la_estepa
+      - mongol_rodeo_de_flanco
+      - mongol_marcha_nomada
+      # Reacciones (5)
+      - mongol_dispersarse_al_viento
+      - mongol_dispersarse_al_viento
+      - mongol_senal_de_humo
+      - mongol_caballos_de_repuesto
+      - mongol_contraataque_de_jinetes
+      # Formaciones (4)
+      - mongol_hostigamiento_circular
+      - mongol_horda_dispersa
+      - mongol_flechas_desde_la_estepa
+      - mongol_golpe_y_retirada
+      # Seguidores (3)
+      - mongol_exploradores_de_vanguardia
+      - mongol_arqueros_de_escolta
+      - mongol_portaestandarte_del_kan
+      # Campos de Batalla (2)
+      - mongol_llanura_abierta_bf
+      - mongol_viento_de_la_estepa
