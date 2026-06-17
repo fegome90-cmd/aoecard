@@ -34,10 +34,10 @@ final class KeywordTests: XCTestCase {
                                 target: .province(target),
                                 terrainTraits: [.rio],
                                 isAssault: true)
-        let r = resolver.resolve(ctx)
-        XCTAssertTrue(r.attackerWins, "anfibio +1 in water → higher pressure")
-        XCTAssertEqual(r.attackerPressure, 4, "anfibio gets +1 attack in water terrain")
-        XCTAssertTrue(r.keywordsApplied.contains("anfibio_attack"))
+        let result = resolver.resolve(ctx)
+        XCTAssertTrue(result.attackerWins, "anfibio +1 in water → higher pressure")
+        XCTAssertEqual(result.attackerPressure, 4, "anfibio gets +1 attack in water terrain")
+        XCTAssertTrue(result.keywordsApplied.contains("anfibio_attack"))
     }
 
     func testAnfibioNoBonusInNonWaterTerrain() {
@@ -49,9 +49,9 @@ final class KeywordTests: XCTestCase {
                                 target: .province(target),
                                 terrainTraits: [.llanura],
                                 isAssault: true)
-        let r = resolver.resolve(ctx)
-        XCTAssertEqual(r.attackerPressure, 3, "anfibio: no bonus in plain terrain")
-        XCTAssertFalse(r.keywordsApplied.contains("anfibio_attack"))
+        let result = resolver.resolve(ctx)
+        XCTAssertEqual(result.attackerPressure, 3, "anfibio: no bonus in plain terrain")
+        XCTAssertFalse(result.keywordsApplied.contains("anfibio_attack"))
     }
 
     // MARK: - Alcance Superior (test 7)
@@ -68,9 +68,9 @@ final class KeywordTests: XCTestCase {
                                 target: .province(target),
                                 terrainTraits: [],
                                 isAssault: true)
-        let r = resolver.resolve(ctx)
-        XCTAssertEqual(r.attackerPressure, 3, "alcance superior +1 when outranging")
-        XCTAssertTrue(r.keywordsApplied.contains("alcanceSuperior"))
+        let result = resolver.resolve(ctx)
+        XCTAssertEqual(result.attackerPressure, 3, "alcance superior +1 when outranging")
+        XCTAssertTrue(result.keywordsApplied.contains("alcanceSuperior"))
     }
 
     func testAlcanceSuperiorNoBonusWhenNotOutranging() {
@@ -85,9 +85,9 @@ final class KeywordTests: XCTestCase {
                                 target: .province(target),
                                 terrainTraits: [],
                                 isAssault: true)
-        let r = resolver.resolve(ctx)
-        XCTAssertEqual(r.attackerPressure, 2, "no bonus when not outranging")
-        XCTAssertFalse(r.keywordsApplied.contains("alcanceSuperior"))
+        let result = resolver.resolve(ctx)
+        XCTAssertEqual(result.attackerPressure, 2, "no bonus when not outranging")
+        XCTAssertFalse(result.keywordsApplied.contains("alcanceSuperior"))
     }
 
     // MARK: - Iniciativa
@@ -105,9 +105,9 @@ final class KeywordTests: XCTestCase {
                                 target: .province(target),
                                 terrainTraits: [],
                                 isAssault: true)
-        let r = resolver.resolve(ctx)
-        XCTAssertEqual(r.initiativeDamageDealt, 1)
-        XCTAssertTrue(r.keywordsApplied.contains("iniciativa"))
+        let result = resolver.resolve(ctx)
+        XCTAssertEqual(result.initiativeDamageDealt, 1)
+        XCTAssertTrue(result.keywordsApplied.contains("iniciativa"))
     }
 
     // MARK: - Carga X
@@ -122,8 +122,8 @@ final class KeywordTests: XCTestCase {
                                 target: .province(target),
                                 terrainTraits: [],
                                 isAssault: true)
-        let r = resolver.resolve(ctx)
-        XCTAssertEqual(r.attackerPressure, 5, "carga +2 on assault")
+        let result = resolver.resolve(ctx)
+        XCTAssertEqual(result.attackerPressure, 5, "carga +2 on assault")
     }
 
     func testCargaDoesNotApplyWhenDefending() {
@@ -136,10 +136,10 @@ final class KeywordTests: XCTestCase {
                                 target: .province(target),
                                 terrainTraits: [],
                                 isAssault: true)
-        let r = resolver.resolve(ctx)
+        let result = resolver.resolve(ctx)
         // No attackers → no pressure, no carga application.
-        XCTAssertEqual(r.attackerPressure, 0)
-        XCTAssertFalse(r.keywordsApplied.contains("carga_2"))
+        XCTAssertEqual(result.attackerPressure, 0)
+        XCTAssertFalse(result.keywordsApplied.contains("carga_2"))
     }
 
     func testCargaCanceledByEffect() {
@@ -156,8 +156,8 @@ final class KeywordTests: XCTestCase {
                                 target: .province(target),
                                 terrainTraits: [],
                                 isAssault: true)
-        let r = resolver.resolve(ctx, effects: active)
-        XCTAssertEqual(r.attackerPressure, 3, "carga suppressed by cancel_charge")
+        let result = resolver.resolve(ctx, effects: active)
+        XCTAssertEqual(result.attackerPressure, 3, "carga suppressed by cancel_charge")
     }
 
     // MARK: - Anti-Caballería X
@@ -174,8 +174,8 @@ final class KeywordTests: XCTestCase {
                                 target: .province(target),
                                 terrainTraits: [],
                                 isAssault: true)
-        let r = resolver.resolve(ctx)
-        XCTAssertEqual(r.defenderPressure, 5, "anti-cab +2 defense against cavalry")
+        let result = resolver.resolve(ctx)
+        XCTAssertEqual(result.defenderPressure, 5, "anti-cab +2 defense against cavalry")
     }
 
     // MARK: - Asedio X
@@ -190,8 +190,8 @@ final class KeywordTests: XCTestCase {
                                 target: .province(target),
                                 terrainTraits: [],
                                 isAssault: true)
-        let r = resolver.resolve(ctx)
-        XCTAssertEqual(r.attackerPressure, 7, "asedio +3 vs province")
+        let result = resolver.resolve(ctx)
+        XCTAssertEqual(result.attackerPressure, 7, "asedio +3 vs province")
     }
 
     // MARK: - Guarnecer X
@@ -208,8 +208,8 @@ final class KeywordTests: XCTestCase {
                                 target: .province(target),
                                 terrainTraits: [],
                                 isAssault: true)
-        let r = resolver.resolve(ctx)
-        XCTAssertEqual(r.defenderPressure, 7, "guarnecer +2 defense on province defense")
+        let result = resolver.resolve(ctx)
+        XCTAssertEqual(result.defenderPressure, 7, "guarnecer +2 defense on province defense")
     }
 
     // MARK: - Province defense reduction effect
@@ -227,10 +227,10 @@ final class KeywordTests: XCTestCase {
                                 target: .province(target),
                                 terrainTraits: [],
                                 isAssault: true)
-        let r = resolver.resolve(ctx, effects: active)
+        let result = resolver.resolve(ctx, effects: active)
         // Province effective def = 4 - 2 = 2; attacker 5 > 2 → win with margin 3.
-        XCTAssertTrue(r.attackerWins)
-        XCTAssertEqual(r.targetDamageDealt, 3)
+        XCTAssertTrue(result.attackerWins)
+        XCTAssertEqual(result.targetDamageDealt, 3)
     }
 
     // MARK: - Única (test 9): handled in DeckTests/RulesEngine; here we verify
@@ -260,12 +260,12 @@ final class KeywordTests: XCTestCase {
                                 target: .province(target),
                                 terrainTraits: [],
                                 isAssault: true)
-        let r1 = resolver.resolve(ctx)
-        let r2 = resolver.resolve(ctx)
-        XCTAssertEqual(r1.attackerPressure, r2.attackerPressure)
-        XCTAssertEqual(r1.defenderPressure, r2.defenderPressure)
-        XCTAssertEqual(r1.margin, r2.margin)
-        XCTAssertEqual(r1.attackerWins, r2.attackerWins)
+        let result1 = resolver.resolve(ctx)
+        let result2 = resolver.resolve(ctx)
+        XCTAssertEqual(result1.attackerPressure, result2.attackerPressure)
+        XCTAssertEqual(result1.defenderPressure, result2.defenderPressure)
+        XCTAssertEqual(result1.margin, result2.margin)
+        XCTAssertEqual(result1.attackerWins, result2.attackerWins)
     }
 
     // MARK: - REL-05: keyword application order is load-bearing and must be pinned

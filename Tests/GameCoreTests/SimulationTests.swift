@@ -52,9 +52,9 @@ final class SimulationTests: XCTestCase {
         // recorded field.
         var seen = Set<Int>()
         for seed in UInt64(1)...20 {
-            let r = sim.playOne(deckA: deckA, strategyA: sA,
+            let result = sim.playOne(deckA: deckA, strategyA: sA,
                                 deckB: deckB, strategyB: sB, seed: seed)
-            seen.insert(r.rounds &* 1000 &+ (r.winner ?? -1))
+            seen.insert(result.rounds &* 1000 &+ (result.winner ?? -1))
         }
         XCTAssertGreaterThan(seen.count, 1, "different seeds should produce varied outcomes")
     }
@@ -92,13 +92,13 @@ final class SimulationTests: XCTestCase {
         let sA = try XCTUnwrap(sim.strategies.first { $0.name == "Ruta-Incursión" })
         let sB = try XCTUnwrap(sim.strategies.first { $0.name == "Malón Contraataque" })
 
-        let r = sim.playOne(deckA: deckA, strategyA: sA,
+        let result = sim.playOne(deckA: deckA, strategyA: sA,
                             deckB: deckB, strategyB: sB, seed: 7)
-        XCTAssertGreaterThanOrEqual(r.rounds, 1, "match should run at least one round")
-        XCTAssertLessThanOrEqual(r.rounds, sim.rules.victory.maxRounds,
+        XCTAssertGreaterThanOrEqual(result.rounds, 1, "match should run at least one round")
+        XCTAssertLessThanOrEqual(result.rounds, sim.rules.victory.maxRounds,
                                  "match should respect maxRounds")
         // Winner is 0, 1, or nil (stall); all valid.
-        XCTAssertTrue(r.winner == nil || r.winner == 0 || r.winner == 1)
+        XCTAssertTrue(result.winner == nil || result.winner == 0 || result.winner == 1)
     }
 
     func testSimulateBatchProducesRequestedCount() throws {

@@ -33,10 +33,10 @@ final class ResolverCalibrationTests: XCTestCase {
                                 target: .province(prov),
                                 terrainTraits: [],
                                 isAssault: true)
-        let r = resolver.resolve(ctx, combat: combat)
-        XCTAssertTrue(r.battleWin)
-        XCTAssertEqual(r.rawProvinceDamage, 7)
-        XCTAssertEqual(r.provinceDamage, 7, "no floor needed — margin already produced damage")
+        let result = resolver.resolve(ctx, combat: combat)
+        XCTAssertTrue(result.battleWin)
+        XCTAssertEqual(result.rawProvinceDamage, 7)
+        XCTAssertEqual(result.provinceDamage, 7, "no floor needed — margin already produced damage")
     }
 
     // MARK: - P0-A: battle won but no raw margin → floor applies (assault only)
@@ -53,10 +53,10 @@ final class ResolverCalibrationTests: XCTestCase {
                                 target: .province(prov),
                                 terrainTraits: [],
                                 isAssault: true)
-        let r = resolver.resolve(ctx, combat: combat)
-        XCTAssertTrue(r.battleWin)
-        XCTAssertEqual(r.rawProvinceDamage, 0, "no margin beyond province defense")
-        XCTAssertEqual(r.provinceDamage, combat.battleWinBonusDamage,
+        let result = resolver.resolve(ctx, combat: combat)
+        XCTAssertTrue(result.battleWin)
+        XCTAssertEqual(result.rawProvinceDamage, 0, "no margin beyond province defense")
+        XCTAssertEqual(result.provinceDamage, combat.battleWinBonusDamage,
                        "floor applies on battle-win-with-zero-raw in an assault")
     }
 
@@ -69,9 +69,9 @@ final class ResolverCalibrationTests: XCTestCase {
                                 target: .province(prov),
                                 terrainTraits: [],
                                 isAssault: true)
-        let r = resolver.resolve(ctx, combat: combat)
-        XCTAssertEqual(r.rawProvinceDamage, 8)
-        XCTAssertEqual(r.provinceDamage, 8, "floor must not stack on top of raw margin")
+        let result = resolver.resolve(ctx, combat: combat)
+        XCTAssertEqual(result.rawProvinceDamage, 8)
+        XCTAssertEqual(result.provinceDamage, 8, "floor must not stack on top of raw margin")
     }
 
     // MARK: - P0-A: floor is assault-only (not destiny)
@@ -86,10 +86,10 @@ final class ResolverCalibrationTests: XCTestCase {
                                 target: .destiny(destiny),
                                 terrainTraits: [],
                                 isAssault: true)
-        let r = resolver.resolve(ctx, combat: combat)
-        XCTAssertTrue(r.battleWin)
-        XCTAssertEqual(r.rawProvinceDamage, 0, "destiny def 3, attacker 3 → raw 0")
-        XCTAssertEqual(r.provinceDamage, 0, "floor is assault-on-province only; destiny gets none")
+        let result = resolver.resolve(ctx, combat: combat)
+        XCTAssertTrue(result.battleWin)
+        XCTAssertEqual(result.rawProvinceDamage, 0, "destiny def 3, attacker 3 → raw 0")
+        XCTAssertEqual(result.provinceDamage, 0, "floor is assault-on-province only; destiny gets none")
     }
 
     // MARK: - P0-B: lost battle deals zero province damage
@@ -104,10 +104,10 @@ final class ResolverCalibrationTests: XCTestCase {
                                 target: .province(prov),
                                 terrainTraits: [],
                                 isAssault: true)
-        let r = resolver.resolve(ctx, combat: combat)
-        XCTAssertFalse(r.battleWin)
-        XCTAssertEqual(r.rawProvinceDamage, 0)
-        XCTAssertEqual(r.provinceDamage, 0, "no progress on a lost battle")
+        let result = resolver.resolve(ctx, combat: combat)
+        XCTAssertFalse(result.battleWin)
+        XCTAssertEqual(result.rawProvinceDamage, 0)
+        XCTAssertEqual(result.provinceDamage, 0, "no progress on a lost battle")
     }
 
     // MARK: - P0-B: battleWin independent of province defense
@@ -123,10 +123,10 @@ final class ResolverCalibrationTests: XCTestCase {
                                 target: .province(prov),
                                 terrainTraits: [],
                                 isAssault: true)
-        let r = resolver.resolve(ctx, combat: combat)
-        XCTAssertTrue(r.battleWin, "beating the units is enough for a battle win")
-        XCTAssertEqual(r.rawProvinceDamage, 0, "province def 10 too high for raw margin")
-        XCTAssertEqual(r.provinceDamage, 1, "floor applies")
+        let result = resolver.resolve(ctx, combat: combat)
+        XCTAssertTrue(result.battleWin, "beating the units is enough for a battle win")
+        XCTAssertEqual(result.rawProvinceDamage, 0, "province def 10 too high for raw margin")
+        XCTAssertEqual(result.provinceDamage, 1, "floor applies")
     }
 
     // MARK: - Casualties use configurable divisor
@@ -144,9 +144,9 @@ final class ResolverCalibrationTests: XCTestCase {
                                 target: .province(prov),
                                 terrainTraits: [],
                                 isAssault: true)
-        let r = resolver.resolve(ctx, combat: c)
-        XCTAssertTrue(r.battleWin)
-        XCTAssertEqual(r.defenderLosses.count, 2, "6 margin / 3 divisor = 2 losses")
+        let result = resolver.resolve(ctx, combat: c)
+        XCTAssertTrue(result.battleWin)
+        XCTAssertEqual(result.defenderLosses.count, 2, "6 margin / 3 divisor = 2 losses")
     }
 
     // MARK: - Backward-compat aliases
@@ -159,9 +159,9 @@ final class ResolverCalibrationTests: XCTestCase {
                                 target: .province(prov),
                                 terrainTraits: [],
                                 isAssault: true)
-        let r = resolver.resolve(ctx, combat: combat)
-        XCTAssertEqual(r.attackerWins, r.battleWin, "alias preserved for pre-1.5 callers")
-        XCTAssertEqual(r.targetDamageDealt, r.provinceDamage)
+        let result = resolver.resolve(ctx, combat: combat)
+        XCTAssertEqual(result.attackerWins, result.battleWin, "alias preserved for pre-1.5 callers")
+        XCTAssertEqual(result.targetDamageDealt, result.provinceDamage)
     }
 
     // MARK: - Determinism preserved
@@ -363,9 +363,9 @@ final class IncursionCalibrationTests: XCTestCase {
                                 terrainTraits: [],
                                 isAssault: false,
                                 isIncursion: true)
-        let r = resolver.resolve(ctx, combat: CombatRules())
-        XCTAssertEqual(r.attackerPressure, 3, "Carga must not apply on an incursion")
-        XCTAssertFalse(r.keywordsApplied.contains("carga_5"))
+        let result = resolver.resolve(ctx, combat: CombatRules())
+        XCTAssertEqual(result.attackerPressure, 3, "Carga must not apply on an incursion")
+        XCTAssertFalse(result.keywordsApplied.contains("carga_5"))
     }
 
     func testAsedioAppliesAgainstProvinceEvenOnIncursion() {
@@ -380,9 +380,9 @@ final class IncursionCalibrationTests: XCTestCase {
                                 terrainTraits: [],
                                 isAssault: false,
                                 isIncursion: true)
-        let r = resolver.resolve(ctx, combat: CombatRules())
-        XCTAssertEqual(r.attackerPressure, 7, "Asedio +4 applies vs province on an incursion")
-        XCTAssertTrue(r.keywordsApplied.contains("asedio_4"))
+        let result = resolver.resolve(ctx, combat: CombatRules())
+        XCTAssertEqual(result.attackerPressure, 7, "Asedio +4 applies vs province on an incursion")
+        XCTAssertTrue(result.keywordsApplied.contains("asedio_4"))
     }
 }
 
