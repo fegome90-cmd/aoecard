@@ -162,14 +162,15 @@ public struct RulesEngine {
         guard totalToUntap > 0 else { return }
 
         var untapped = 0
-        // Rank tapped resources by production total desc, then id asc.
+        // Rank tapped resources by production total desc, then STABLE INDEX asc.
+        // The previous uuidString tie-break leaked non-determinism (audit REL-03).
         let ranked = state.players[playerIdx].resources.enumerated()
             .filter { !$0.element.isReady }
             .sorted { lhs, rhs in
                 let lt = lhs.element.production.total
                 let rt = rhs.element.production.total
                 if lt != rt { return lt > rt }
-                return lhs.element.id.uuidString < rhs.element.id.uuidString
+                return lhs.offset < rhs.offset
             }
         for (idx, _) in ranked {
             guard untapped < totalToUntap else { break }
@@ -448,7 +449,8 @@ public struct RulesEngine {
                             if lhs.element.baseStats.defense != rhs.element.baseStats.defense {
                                 return lhs.element.baseStats.defense < rhs.element.baseStats.defense
                             }
-                            return lhs.element.id.uuidString < rhs.element.id.uuidString
+                            // Stable tie-break: smallest array offset wins (was uuidString — audit REL-03).
+                            return lhs.offset > rhs.offset
                         }
                     if let (dIdx, _) = candidate {
                         opp.units[dIdx].isReady = false

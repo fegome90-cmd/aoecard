@@ -30,10 +30,9 @@ public enum Economy {
 
     /// A single candidate subset of ready resources that can cover `cost`.
     private struct Candidate: Hashable {
-        let indices: [Int]                  // sorted ascending
+        let indices: [Int]                  // sorted ascending — the stable tie-break key
         let taps: Int
         let waste: Int
-        let ids: [UUID]                     // for tie-break by id
     }
 
     /// Try to pay `cost` by tapping a subset of `ready` resources.
@@ -95,11 +94,9 @@ public enum Economy {
                 continue
             }
             let waste = (sumFood - cost.food) + (sumWood - cost.wood) + (sumGold - cost.gold)
-            let ids = indices.map { ready[$0].id }
             let candidate = Candidate(indices: indices,
                                       taps: indices.count,
-                                      waste: waste,
-                                      ids: ids)
+                                      waste: waste)
             if isBetter(candidate, than: best) {
                 best = candidate
             }
@@ -107,15 +104,16 @@ public enum Economy {
         return best
     }
 
-    /// Candidate ranking: (waste ASC, taps ASC, ids lexicographic ASC).
+    /// Candidate ranking: (waste ASC, taps ASC, indices lexicographic ASC).
+    /// The indices tie-break is STABLE: it depends only on array position,
+    /// which is deterministic given the seed (the deck shuffle order is
+    /// seed-derived). The previous uuidString tie-break leaked non-determinism
+    /// because ResourceInPlay.id defaults to a random UUID. (audit REL-03)
     private static func isBetter(_ candidate: Candidate, than current: Candidate?) -> Bool {
         guard let current = current else { return true }
         if candidate.waste != current.waste { return candidate.waste < current.waste }
         if candidate.taps != current.taps { return candidate.taps < current.taps }
-        // Lexicographic by UUID string for stable, deterministic ordering.
-        let lhs = candidate.ids.map { $0.uuidString }.joined(separator: ",")
-        let rhs = current.ids.map { $0.uuidString }.joined(separator: ",")
-        return lhs < rhs
+        return candidate.indices.lexicographicallyPrecedes(current.indices)
     }
 
     /// Deterministic greedy fallback (only when readyCount > 16). Not optimal, but safe.
@@ -123,14 +121,15 @@ public enum Economy {
         var remaining = cost
         var tapped: [UUID] = []
         var summed = ResourceAmount.zero
-        // Order by descending total production then by id for determinism.
-        let sorted = ready.sorted {
-            if $0.production.total != $1.production.total {
-                return $0.production.total > $1.production.total
+        // Order by descending total production then by STABLE INDEX for determinism.
+        // The previous uuidString tie-break leaked non-determinism (audit REL-03).
+        let sorted = ready.enumerated().sorted {
+            if $0.element.production.total != $1.element.production.total {
+                return $0.element.production.total > $1.element.production.total
             }
-            return $0.id.uuidString < $1.id.uuidString
+            return $0.offset < $1.offset
         }
-        for resource in sorted {
+        for (_, resource) in sorted {
             if remaining.isFree { break }
             summed += resource.production
             remaining.food -= resource.production.food
