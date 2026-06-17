@@ -1,4 +1,9 @@
-# Age of Provinces — Headless Engine (v0.6 slice, 1.5 calibration)
+# Age of Provinces — Headless Engine
+
+![Swift](https://img.shields.io/badge/Swift-6.0%2B-F05138?logo=swift&logoColor=white)
+![macOS](https://img.shields.io/badge/platform-macOS%2013%2B-000000?logo=apple&logoColor=white)
+![SPM](https://img.shields.io/badge/SPM-compatible-F05138?logo=swift&logoColor=white)
+![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)
 
 A headless, deterministic, testable card-game engine for **Age of Provinces**, a
 strategy card game with two decks, provinces, a stronghold/civilization, a
@@ -6,8 +11,10 @@ central Destiny map, and tap-to-pay resources. This repository contains the
 **simulation engine first** — no UI, no networking, no persistence. The macOS UI
 comes later.
 
-This is a private rules prototype. It does not copy names, logos, or art from
-any existing franchise.
+> Current state: **v0.6 slice** with the **1.5 combat-resolver calibration**.
+
+This is a rules prototype. It does not copy names, logos, or art from any
+existing franchise.
 
 ## Status
 
@@ -233,10 +240,12 @@ Slice vocabulary (closed set; extend `Effect.swift` to add ids):
 
 ## First report
 
-The included run `Output/simulations/run_20260615_2138/` is a civ matrix of
-9 cells × 1000 games (seed 123). The `matchup_matrix.csv` rows are the source of
-truth; cells are labeled `A vs B` where `winRateA` is A's win rate and
-`winRateB` is B's. `winsA + winsB + stalls = games` always holds.
+A representative civ-matrix run (9 cells × 1000 games, seed 123) illustrates the
+output format. `Output/` is git-ignored, so run artifacts are not in the repo —
+reproduce locally with `swift run SimCLI matrix --games 1000 --mode civ --seed 123`.
+The `matchup_matrix.csv` rows are the source of truth; cells are labeled
+`A vs B` where `winRateA` is A's win rate and `winRateB` is B's.
+`winsA + winsB + stalls = games` always holds.
 
 Reading the matrix correctly: a cell `Mongoles vs Britanos` with `winsA=0,
 winsB=706` and the cell `Britanos vs Mongoles` with `winsA=707, winsB=0`
@@ -357,3 +366,7 @@ no recompilation needed.
 2. Maravillas.
 3. Game parallelism (perf).
 4. macOS UI.
+
+## License
+
+Released under the [MIT License](LICENSE).
