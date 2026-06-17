@@ -55,10 +55,18 @@ public struct BattleContext: Sendable {
         self.isIncursion = isIncursion
     }
 
+    /// Defense value the battle must overcome for each target type.
+    ///
+    /// Destinies use a fixed abstract defense in v0.6 (no province-style HP).
+    /// The magic number is extracted as a named constant rather than a dead
+    /// `? 3 : 3` branch (audit AF-05). If/when destiny defense becomes
+    /// data-driven, replace this with a lookup into the destiny definition.
+    public static let destinyAbstractDefense = 3
+
     public var targetDefense: Int {
         switch target {
         case .province(let p): return p.currentDefense
-        case .destiny(let d): return d.traits.isEmpty ? 3 : 3 // destinos: defense fija baja (v0.6 abstracto)
+        case .destiny: return Self.destinyAbstractDefense
         }
     }
 
