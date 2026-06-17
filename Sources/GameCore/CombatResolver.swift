@@ -65,7 +65,7 @@ public struct BattleContext: Sendable {
 
     public var targetDefense: Int {
         switch target {
-        case .province(let p): return p.currentDefense
+        case .province(let prov): return prov.currentDefense
         case .destiny: return Self.destinyAbstractDefense
         }
     }
@@ -165,11 +165,11 @@ public struct CombatResolver {
 
         // 2. Apply persistent attack/defense bonuses from effects.
         if effects.attackerAttackBonus != 0 {
-            for i in attacker.indices { attacker[i].attack += effects.attackerAttackBonus }
+            for idx in attacker.indices { attacker[idx].attack += effects.attackerAttackBonus }
             keywordsApplied.append("attacker_attack_bonus_\(effects.attackerAttackBonus)")
         }
         if effects.defenderDefenseBonus != 0 {
-            for i in defender.indices { defender[i].defense += effects.defenderDefenseBonus }
+            for idx in defender.indices { defender[idx].defense += effects.defenderDefenseBonus }
             keywordsApplied.append("defender_defense_bonus_\(effects.defenderDefenseBonus)")
         }
 
@@ -177,18 +177,18 @@ public struct CombatResolver {
         //    a) Anfibio: +1 Ataque al primer atacante Anfibio si el terreno es agua.
         if context.isWaterTerrain {
             var amphibApplied = false
-            for i in attacker.indices where attacker[i].keywords.has(.anfibio) && !amphibApplied {
-                attacker[i].attack += 1
+            for idx in attacker.indices where attacker[idx].keywords.has(.anfibio) && !amphibApplied {
+                attacker[idx].attack += 1
                 amphibApplied = true
                 keywordsApplied.append("anfibio_attack")
             }
         }
 
         //    b) Iniciativa: 1 daño pre-Presión a una unidad enemiga con defensa <= ataque.
-        for u in attacker where u.keywords.has(.iniciativa)
+        for unit in attacker where unit.keywords.has(.iniciativa)
             && !effects.suppressedKeywords.contains(.iniciativa) {
-            if let idx = defender.firstIndex(where: { $0.defense <= u.attack }) {
-                defender[idx].damageTaken += 1
+            if let defIdx = defender.firstIndex(where: { $0.defense <= unit.attack }) {
+                defender[defIdx].damageTaken += 1
                 initiativeDamage += 1
                 keywordsApplied.append("iniciativa")
                 break
@@ -197,10 +197,10 @@ public struct CombatResolver {
 
         //    c) Carga X: +X Ataque al asaltar (no defendiendo).
         if context.isAssault && !effects.chargeCanceled {
-            for i in attacker.indices {
-                let mag = attacker[i].keywords.magnitude(of: .carga)
+            for idx in attacker.indices {
+                let mag = attacker[idx].keywords.magnitude(of: .carga)
                 if mag > 0 {
-                    attacker[i].attack += mag
+                    attacker[idx].attack += mag
                     keywordsApplied.append("carga_\(mag)")
                 }
             }
@@ -211,10 +211,10 @@ public struct CombatResolver {
             $0.traits.contains(.caballeria) || $0.traits.contains(.caballeriaArquera)
         }
         if attackerHasCavalry {
-            for i in defender.indices {
-                let mag = defender[i].keywords.magnitude(of: .antiCaballeria)
+            for idx in defender.indices {
+                let mag = defender[idx].keywords.magnitude(of: .antiCaballeria)
                 if mag > 0 {
-                    defender[i].defense += mag
+                    defender[idx].defense += mag
                     keywordsApplied.append("antiCaballeria_\(mag)")
                 }
             }
@@ -229,10 +229,10 @@ public struct CombatResolver {
             return false
         }()
         if isProvinceOrBuildingTarget {
-            for i in attacker.indices {
-                let mag = attacker[i].keywords.magnitude(of: .asedio)
+            for idx in attacker.indices {
+                let mag = attacker[idx].keywords.magnitude(of: .asedio)
                 if mag > 0 {
-                    attacker[i].attack += mag
+                    attacker[idx].attack += mag
                     keywordsApplied.append("asedio_\(mag)")
                 }
             }
@@ -240,10 +240,10 @@ public struct CombatResolver {
 
         //    f) Guarnecer X: +X Defensa defendiendo Provincia propia.
         if case .province = context.target {
-            for i in defender.indices {
-                let mag = defender[i].keywords.magnitude(of: .guarnecer)
+            for idx in defender.indices {
+                let mag = defender[idx].keywords.magnitude(of: .guarnecer)
                 if mag > 0 {
-                    defender[i].defense += mag
+                    defender[idx].defense += mag
                     keywordsApplied.append("guarnecer_\(mag)")
                 }
             }
@@ -256,9 +256,9 @@ public struct CombatResolver {
                 && $0.range > maxDefenderRange
         }
         if anyAttackerSuperior {
-            for i in attacker.indices where attacker[i].keywords.has(.alcanceSuperior)
-                && attacker[i].range > maxDefenderRange {
-                attacker[i].attack += 1
+            for idx in attacker.indices where attacker[idx].keywords.has(.alcanceSuperior)
+                && attacker[idx].range > maxDefenderRange {
+                attacker[idx].attack += 1
                 keywordsApplied.append("alcanceSuperior")
                 break
             }
@@ -270,8 +270,8 @@ public struct CombatResolver {
         // 4. Apply accumulated effect bonuses (amphib first attacker, etc.).
         if effects.amphibFirstAttackerBonus != 0 && context.isWaterTerrain {
             var applied = false
-            for i in attacker.indices where attacker[i].keywords.has(.anfibio) && !applied {
-                attacker[i].attack += effects.amphibFirstAttackerBonus
+            for idx in attacker.indices where attacker[idx].keywords.has(.anfibio) && !applied {
+                attacker[idx].attack += effects.amphibFirstAttackerBonus
                 applied = true
             }
         }
