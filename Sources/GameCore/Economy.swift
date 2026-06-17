@@ -158,6 +158,10 @@ public enum Economy {
 
     /// Commit a payment against a player state: tap the chosen resources and
     /// accumulate wasted resources into `wasteSink`.
+    ///
+    /// This is one of the three coordinated writers of `resources[].isReady`
+    /// — see `PlayerState.readyAll` for the full invariant. It is the ONLY path
+    /// that consumes resource readiness (tap-to-pay). (audit AF-02)
     public static func commit(_ payment: Payment, into player: inout PlayerState,
                               wasteSink: inout ResourceAmount) {
         let tapSet = Set(payment.tappedResourceIds)

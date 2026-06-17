@@ -151,6 +151,25 @@ public struct PlayerState: Sendable {
     }
 
     /// Untap all resources and units (start-of-round ready step).
+    ///
+    /// `resources[].isReady` invariant (audit AF-02). The tap state of a
+    /// resource card has exactly THREE coordinated writer surfaces; touching any
+    /// of them without understanding the cycle breaks tap-to-pay:
+    ///
+    ///   1. **`Economy.commit`** — taps resources (`isReady = false`) to pay for
+    ///      a card. This is the only path that consumes readiness.
+    ///   2. **`PlayerState.readyAll`** (HERE) — untaps every resource and unit
+    ///      at the start of each round. Called by `RulesEngine.play` between rounds.
+    ///   3. **`RulesEngine.perform`** — selectively untaps resources as the effect
+    ///      of tactics (`untapResources`) and as the reward for a won incursion
+    ///      (untap one gold-producing resource). These are intentional exceptions
+    ///      to the "only round-reset untaps" rule, scoped to specific effects.
+    ///
+    /// The engine is single-threaded with value-type state, so there is no race;
+    /// the risk is purely structural — a future maintainer adding a fourth writer
+    /// (e.g. an effect that taps opponent resources) must preserve the invariant
+    /// that every resource tapped by `Economy.commit` is untapped exactly once
+    /// per round by `readyAll`, plus at most the documented effect-driven untaps.
     public mutating func readyAll() {
         for i in resources.indices { resources[i].isReady = true }
         for i in units.indices { units[i].isReady = true }
