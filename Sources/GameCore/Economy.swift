@@ -118,7 +118,7 @@ public enum Economy {
         return lhs < rhs
     }
 
-    /// Deterministic greedy fallback (only for n > 16). Not optimal, but safe.
+    /// Deterministic greedy fallback (only when readyCount > 16). Not optimal, but safe.
     private static func greedySolve(cost: ResourceAmount, ready: [ResourceInPlay]) -> Payment? {
         var remaining = cost
         var tapped: [UUID] = []

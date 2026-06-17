@@ -111,26 +111,26 @@ public struct Exporters {
             "provinceDamageDealt", "assaultBattleWinsWithZeroRawProvinceDamage",
             "incursionDefendersExhausted", "destinyResourceBonus"
         ].joined(separator: ","))
-        for g in games {
-            let winnerStr = g.winner.map(String.init) ?? ""
-            let firstBrokenStr = g.firstProvinceBrokenRound.map(String.init) ?? ""
+        for game in games {
+            let winnerStr = game.winner.map(String.init) ?? ""
+            let firstBrokenStr = game.firstProvinceBrokenRound.map(String.init) ?? ""
             let row: [String] = [
-                csv(g.matchup), g.civilizationA.rawValue, g.civilizationB.rawValue,
-                csv(g.strategyA), csv(g.strategyB), winnerStr,
-                g.winCondition.rawValue, String(g.rounds), String(g.firstPlayer),
+                csv(game.matchup), game.civilizationA.rawValue, game.civilizationB.rawValue,
+                csv(game.strategyA), csv(game.strategyB), winnerStr,
+                game.winCondition.rawValue, String(game.rounds), String(game.firstPlayer),
                 firstBrokenStr,
-                String(g.resourcesWastedFood), String(g.resourcesWastedWood), String(g.resourcesWastedGold),
-                String(g.deadCardsCount), String(g.deadTurns), String(g.destinyControls),
-                String(g.incursionsDeclared), String(g.incursionsSuccessful),
-                String(g.assaultsDeclared), String(g.assaultsSuccessful),
-                String(g.reactionsPlayed), String(g.unitsDestroyed),
-                String(g.cardsDrawn), String(g.cardsPlayed),
-                String(g.strongholdAbilityUses), String(g.keywordUses),
-                String(g.seed),
-                String(g.provinceDamageDealt),
-                String(g.assaultBattleWinsWithZeroRawProvinceDamage),
-                String(g.incursionDefendersExhausted),
-                String(g.destinyResourceBonus)
+                String(game.resourcesWastedFood), String(game.resourcesWastedWood), String(game.resourcesWastedGold),
+                String(game.deadCardsCount), String(game.deadTurns), String(game.destinyControls),
+                String(game.incursionsDeclared), String(game.incursionsSuccessful),
+                String(game.assaultsDeclared), String(game.assaultsSuccessful),
+                String(game.reactionsPlayed), String(game.unitsDestroyed),
+                String(game.cardsDrawn), String(game.cardsPlayed),
+                String(game.strongholdAbilityUses), String(game.keywordUses),
+                String(game.seed),
+                String(game.provinceDamageDealt),
+                String(game.assaultBattleWinsWithZeroRawProvinceDamage),
+                String(game.incursionDefendersExhausted),
+                String(game.destinyResourceBonus)
             ]
             lines.append(row.joined(separator: ","))
         }
@@ -146,14 +146,14 @@ public struct Exporters {
             "totalUnitsDestroyed", "totalKeywordUses"
         ].joined(separator: ","))
         for (cell, games) in matrix {
-            let s = StatsAggregator.matchupStats(label: cell, games: games)
+            let stats = StatsAggregator.matchupStats(label: cell, games: games)
             lines.append([
-                csv(cell), String(s.games), String(s.winsA), String(s.winsB), String(s.stalls),
-                String(format: "%.4f", s.winRateA), String(format: "%.4f", s.winRateB),
-                String(format: "%.2f", s.averageRounds), String(format: "%.4f", s.stallRate),
-                String(format: "%.4f", s.firstPlayerWinRate),
-                String(s.totalIncursionsDeclared), String(s.totalAssaultsDeclared),
-                String(s.totalUnitsDestroyed), String(s.totalKeywordUses)
+                csv(cell), String(stats.games), String(stats.winsA), String(stats.winsB), String(stats.stalls),
+                String(format: "%.4f", stats.winRateA), String(format: "%.4f", stats.winRateB),
+                String(format: "%.2f", stats.averageRounds), String(format: "%.4f", stats.stallRate),
+                String(format: "%.4f", stats.firstPlayerWinRate),
+                String(stats.totalIncursionsDeclared), String(stats.totalAssaultsDeclared),
+                String(stats.totalUnitsDestroyed), String(stats.totalKeywordUses)
             ].joined(separator: ","))
         }
         try lines.joined(separator: "\n").write(to: url, atomically: true, encoding: .utf8)
@@ -173,8 +173,8 @@ public struct Exporters {
     func aggregateStrategies(_ matrix: [(String, [GameResult])]) -> [String: MatchupStats] {
         var byStrategy: [String: [GameResult]] = [:]
         for (_, games) in matrix {
-            for g in games {
-                byStrategy[g.strategyA, default: []].append(g)
+            for game in games {
+                byStrategy[game.strategyA, default: []].append(game)
             }
         }
         return byStrategy.mapValues { StatsAggregator.matchupStats(label: "", games: $0) }
