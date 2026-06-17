@@ -21,10 +21,16 @@ public enum Economy {
     public struct Payment: Hashable, Sendable {
         public let tappedResourceIds: [UUID]
         public let waste: ResourceAmount
+        /// True when the solver used the greedy fallback (n > 16) instead of the
+        /// optimal subset enumeration. Callers can observe this to log or flag
+        /// that the payment may be suboptimal. (audit RES-03)
+        public let usedGreedyFallback: Bool
 
-        public init(tappedResourceIds: [UUID], waste: ResourceAmount) {
+        public init(tappedResourceIds: [UUID], waste: ResourceAmount,
+                    usedGreedyFallback: Bool = false) {
             self.tappedResourceIds = tappedResourceIds
             self.waste = waste
+            self.usedGreedyFallback = usedGreedyFallback
         }
     }
 
@@ -145,7 +151,7 @@ public enum Economy {
             wood: max(0, summed.wood - cost.wood),
             gold: max(0, summed.gold - cost.gold)
         )
-        return Payment(tappedResourceIds: tapped, waste: waste)
+        return Payment(tappedResourceIds: tapped, waste: waste, usedGreedyFallback: true)
     }
 
     private static func sum(_ resources: [ResourceInPlay], indices: [Int]) -> ResourceAmount {

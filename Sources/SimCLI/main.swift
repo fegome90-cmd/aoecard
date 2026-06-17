@@ -336,7 +336,8 @@ struct SimCLI {
         let config = RunConfig(command: command, games: games, seed: seed,
                                civilizationA: civA, civilizationB: civB,
                                strategyA: stratA, strategyB: stratB,
-                               rulesVersion: rulesVersion)
+                               rulesVersion: rulesVersion,
+                               actualOutputDir: dir.path)
         try exporters.writeRun(name: name, config: config, games: allGames,
                                matchupMatrix: matchupMatrix,
                                strategyMatrix: strategyMatrix,

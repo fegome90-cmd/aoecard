@@ -208,11 +208,16 @@ public struct RunConfig: Codable, Sendable {
     public var strategyA: String?
     public var strategyB: String?
     public var rulesVersion: String
+    /// Actual output directory path (may differ from the natural `run_<ts>` name
+    /// when the collision guard appended a `_N` suffix). Surfaced in summary.json
+    /// so a user can locate their artifacts even after a collision. (audit RES-02)
+    public var actualOutputDir: String?
 
     public init(command: String, games: Int, seed: UInt64,
                 civilizationA: String? = nil, civilizationB: String? = nil,
                 strategyA: String? = nil, strategyB: String? = nil,
-                rulesVersion: String) {
+                rulesVersion: String,
+                actualOutputDir: String? = nil) {
         self.command = command
         self.games = games
         self.seed = seed
@@ -221,6 +226,7 @@ public struct RunConfig: Codable, Sendable {
         self.strategyA = strategyA
         self.strategyB = strategyB
         self.rulesVersion = rulesVersion
+        self.actualOutputDir = actualOutputDir
     }
 }
 
