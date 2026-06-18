@@ -78,7 +78,14 @@ public struct StrategyAI {
             }
             switch card.type {
             case .resource:
-                out.append(.playResource(cardId: id))
+                // Honor the one-resource-per-turn flag (M1-4). perform() already
+                // rejects a second resource, so without this guard the AI keeps
+                // choosing resources it can't deploy and burns the consecutive-
+                // failure budget, ending the turn early and distorting simulations.
+                // The legal-action producer and perform() must share one truth.
+                if !player.hasDeployedResourceThisTurn {
+                    out.append(.playResource(cardId: id))
+                }
             case .unit:
                 out.append(.playUnit(cardId: id))
             case .building:
@@ -105,7 +112,7 @@ public struct StrategyAI {
                 if prov.isStronghold && !opponent.strongholdExposed { continue }
                 out.append(.assaultProvince(targetPlayerIndex: opponent.index, provinceIndex: idx))
             }
-            for (idx, d) in state.destinyMap.enumerated() where d.controller != player.index {
+            for (idx, destiny) in state.destinyMap.enumerated() where destiny.controller != player.index {
                 out.append(.assaultDestiny(destinyIndex: idx))
             }
             out.append(.incursion(targetPlayerIndex: opponent.index))
