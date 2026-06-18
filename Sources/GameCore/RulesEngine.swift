@@ -201,14 +201,15 @@ public struct RulesEngine {
         switch action {
         case .playResource(let id):
             guard let card = state.card(for: id),
+                  let handIndex = player.empireHand.firstIndex(of: id),
                   let payment = Economy.solve(cost: card.cost, ready: player.readyResources) else {
-                // Can't pay: skip this action but keep the turn.
+                // Can't pay or not in hand: skip this action but keep the turn.
                 return (false, true, 0, false)
             }
             var waste = state.wasteByPlayer[playerIdx]
             Economy.commit(payment, into: &player, wasteSink: &waste)
             state.wasteByPlayer[playerIdx] = waste
-            player.empireHand.removeAll { $0 == id }
+            player.empireHand.remove(at: handIndex)
             let printed = card.production ?? .zero
             let adjusted = Economy.adjustedProduction(printed, strongWeak: player.strongWeak)
             player.resources.append(ResourceInPlay(cardId: id, production: adjusted,
@@ -218,13 +219,14 @@ public struct RulesEngine {
 
         case .playUnit(let id):
             guard let card = state.card(for: id),
+                  let handIndex = player.empireHand.firstIndex(of: id),
                   let payment = Economy.solve(cost: card.cost, ready: player.readyResources) else {
                 return (false, true, 0, false)
             }
             var waste = state.wasteByPlayer[playerIdx]
             Economy.commit(payment, into: &player, wasteSink: &waste)
             state.wasteByPlayer[playerIdx] = waste
-            player.empireHand.removeAll { $0 == id }
+            player.empireHand.remove(at: handIndex)
             let unit = UnitInPlay(cardId: id, civilization: card.civilization,
                                   traits: card.traitSet, keywords: card.keywordSet,
                                   baseStats: card.stats ?? Stats(), isReady: true,
@@ -235,13 +237,14 @@ public struct RulesEngine {
 
         case .playBuilding(let id), .playTechnology(let id), .playSpecial(let id):
             guard let card = state.card(for: id),
+                  let handIndex = player.empireHand.firstIndex(of: id),
                   let payment = Economy.solve(cost: card.cost, ready: player.readyResources) else {
                 return (false, true, 0, false)
             }
             var waste = state.wasteByPlayer[playerIdx]
             Economy.commit(payment, into: &player, wasteSink: &waste)
             state.wasteByPlayer[playerIdx] = waste
-            player.empireHand.removeAll { $0 == id }
+            player.empireHand.remove(at: handIndex)
             player.permanents.append(PermanentInPlay(cardId: id, type: card.type,
                                                      civilization: card.civilization,
                                                      traits: card.traitSet))
@@ -249,7 +252,11 @@ public struct RulesEngine {
             return (true, true, 0, false)
 
         case .playTactic(let id):
-            guard let card = state.card(for: id) else { return (false, true, 0, false) }
+            guard let card = state.card(for: id),
+                  let handIndex = player.tacticsHand.firstIndex(of: id) else {
+                return (false, true, 0, false)
+            }
+            player.tacticsHand.remove(at: handIndex)
             for effect in card.effects {
                 switch effect {
                 case .untapResources(let count, let produces):
@@ -276,7 +283,6 @@ public struct RulesEngine {
                     break
                 }
             }
-            player.tacticsHand.removeAll { $0 == id }
             state.players[playerIdx] = player
             return (true, true, 0, strongholdUse)
 
