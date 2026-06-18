@@ -127,6 +127,12 @@ public struct PlayerState: Sendable {
     public var empireHand: [String]
     public var tacticsHand: [String]
 
+    /// True once this player has deployed a resource during the current turn.
+    /// Transient — never serialized; reconstruct from turn boundaries if
+    /// persistence is introduced (see D2).
+    /// Independent from ResourceInPlay.isReady (see docs/tech-debt.md AF-02).
+    var hasDeployedResourceThisTurn = false
+
     /// Whether the stronghold province has been exposed (all outer broken).
     public var strongholdExposed: Bool { provinces.filter { !$0.isStronghold }.allSatisfy { $0.isBroken } }
 

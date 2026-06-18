@@ -119,6 +119,7 @@ public struct RulesEngine {
 
     private func takeTurn(state: inout GameState, playerIdx: Int,
                           counters: inout LiveCounters) {
+        state.players[playerIdx].hasDeployedResourceThisTurn = false
         // Slice 1.5-D: at the start of the controller's turn, each Destiny they
         // control untaps one tapped resource (highest production, deterministic
         // tie-break). No card draw — economy only, per the agreed slice scope.
@@ -201,9 +202,13 @@ public struct RulesEngine {
         switch action {
         case .playResource(let id):
             guard let card = state.card(for: id),
-                  let handIndex = player.empireHand.firstIndex(of: id),
-                  let payment = Economy.solve(cost: card.cost, ready: player.readyResources) else {
-                // Can't pay or not in hand: skip this action but keep the turn.
+                  let handIndex = player.empireHand.firstIndex(of: id) else {
+                return (false, true, 0, false)
+            }
+            guard !player.hasDeployedResourceThisTurn else {
+                return (false, true, 0, false)
+            }
+            guard let payment = Economy.solve(cost: card.cost, ready: player.readyResources) else {
                 return (false, true, 0, false)
             }
             var waste = state.wasteByPlayer[playerIdx]
@@ -214,6 +219,7 @@ public struct RulesEngine {
             let adjusted = Economy.adjustedProduction(printed, strongWeak: player.strongWeak)
             player.resources.append(ResourceInPlay(cardId: id, production: adjusted,
                                                     isReady: !card.entersTapped))
+            player.hasDeployedResourceThisTurn = true
             state.players[playerIdx] = player
             return (true, true, 0, false)
 

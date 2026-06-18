@@ -236,9 +236,8 @@ final class PlayLoopTests: XCTestCase {
                       "res_b should still be in hand")
     }
 
-#if false // Phase 2 flag-dependent tests — enabled after hasDeployedResourceThisTurn added
     // --- 2.3 REGRESSION: first resource succeeds, flag set ---
-    func testFirstResourceInTurnSucceeds_disabled() {
+    func testFirstResourceInTurnSucceeds() {
         let startRes = ResourceInPlay(cardId: "start", production: ResourceAmount(food: 3, wood: 0, gold: 0), isReady: true)
         var state = makeState(
             empireHand: ["res_a"],
@@ -362,5 +361,4 @@ final class PlayLoopTests: XCTestCase {
         XCTAssertTrue(state.players[0].empireHand.contains("res_a"),
                       "res_a should still be in hand")
     }
-#endif
 }
