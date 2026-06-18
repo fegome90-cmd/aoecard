@@ -1,0 +1,55 @@
+# state.yaml — DAG state for m1-play-loop-correctness
+# Survives compaction. Orchestrator is the authority; agents update via phases.
+change: m1-play-loop-correctness
+milestone: M1
+phase: design
+status: in_progress
+created: 2026-06-17
+reopened: 2026-06-17
+
+# REOPENED after user review caught a CRITICAL compile blocker:
+# removeFirst(where:) does NOT exist in Swift stdlib (verified by compile).
+# 4 AI judges + orchestrator propagated the error undetected. All approvals
+# based on the non-compiling plan are REVOKED. Fixes in progress; gates must
+# be re-run after.
+
+preflight:
+  artifact_store: openspec
+  execution_mode: interactive
+  chained_pr_strategy: single-pr-default
+  review_budget_lines: 300
+
+dependencies:
+  proposal: done # reopened fix applied (approach, risks, rollback)
+  exploration: done
+  spec: done # S7 no-effects, S8 economy, determinism firstIndex
+  design: done # D1 firstIndex+remove; D2 Codable; D4 wording
+  tasks: done # behavioral RED, single guard order, R3 cleanups
+  compile_probe: passed # firstIndex+remove verified to compile + behave
+  judgment_day: approved # R3: 0 CRITICAL, 0 HIGH, 5 drift WARNING all fixed
+  apply: done # 2 commits; reviewer APPROVED; 85 tests pass
+
+scope:
+  items: [M1-1, M1-4]
+  summary: "Fix two play-loop bugs (M1-1 single-copy, M1-4 one-resource/turn)."
+  critical_path: true
+
+artifacts:
+  proposal: openspec/changes/m1-play-loop-correctness/proposal.md
+  spec: openspec/changes/m1-play-loop-correctness/specs/
+  design: openspec/changes/m1-play-loop-correctness/design.md
+  tasks: openspec/changes/m1-play-loop-correctness/tasks.md
+  verify: openspec/changes/m1-play-loop-correctness/verify-report.md
+  exploration_ref: docs/sprint-m1-rules-fidelity/tasklist.md
+
+# Fix checklist (user dictamen 2026-06-17):
+#  [1 CRITICAL] removeFirst(where:) -> firstIndex(of:) + remove(at:)
+#  [2] proposal hand-membership self-contradiction
+#  [3] tasks 2.2 vs 2.6 incompatible guard orders -> single sequence
+#  [4] M1-4 TDD order: RED = behavioral second-resource-rejected
+#  [5] public var -> internal var (no public API surface change)
+#  [6] Codable synthesis explanation corrected
+#  [7] rollback/commits: 2 commits, selective revert, no "single git revert"
+#  [8] test fixtures precision (empty hands for reset, econ chain for slot)
+#  [9] drop absolute test count from DoD
+#  [10] state semantics fixed (this file)

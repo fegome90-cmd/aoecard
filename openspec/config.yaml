@@ -1,0 +1,69 @@
+# openspec/config.yaml — Spec-Driven Development config for aoecard
+schema: spec-driven
+
+context: |
+  Tech stack: Swift 6.0 tools-version (Swift 6.3.x toolchain), macOS 13.0+
+  Package manager: Swift Package Manager (SPM), no Xcode project
+  External deps: Yams 5.2.0 (single, justified: pure-Swift YAML parser)
+  Architecture: Library/CLI split. GameCore = domain logic; SimCLI = entry.
+  Data-driven: cards/rules/decks live in Data/*.yaml (this IS source).
+  Determinism is load-bearing: same seed + actions -> identical state+log.
+  Testing: XCTest via SPM; strict TDD (RED/GREEN/REFACTOR) is the norm.
+  Style: no linter/formatter. Value types + pure functions preferred.
+
+strict_tdd: true
+
+testing:
+  strict_tdd: enabled
+  detected: 2026-06-17
+
+  test_runner:
+    command: "swift test"
+    framework: XCTest (SwiftPM)
+
+  test_layers:
+    unit: true
+    integration: false
+    e2e: false
+
+  coverage:
+    available: true
+    command: "swift test --enable-code-coverage"
+
+  quality_tools:
+    linter: false
+    type_checker: false
+    formatter: false
+
+  build:
+    note: >
+      'swift build' does NOT compile tests; run
+      'swift build --build-tests' to catch test-side compile errors.
+
+rules:
+  proposal:
+    - Include rollback plan (git revert baseline for Swift data+code).
+    - List affected modules: GameCore vs SimCLI vs Data/.
+  specs:
+    - Use Given/When/Then for scenarios.
+    - Use RFC 2119 keywords (MUST, SHALL, SHOULD, MAY).
+    - Pin determinism invariants explicitly.
+  design:
+    - Document decisions with rationale (choice/alternatives/why).
+    - Show data flow for any state mutation in RulesEngine.perform().
+  tasks:
+    - Group by phase; use hierarchical numbering (1.1, 1.2).
+    - Each task small enough for one TDD session.
+  apply:
+    rules:
+      - Follow existing patterns (value types, pure functions).
+      - No IO inside GameCore; YAML parsing stays in DataLoader.
+    tdd: true
+    test_command: "swift test --filter <Target>"
+    build_tests_command: "swift build --build-tests"
+  verify:
+    test_command: "swift test"
+    build_tests_command: "swift build --build-tests"
+    coverage_threshold: 0
+  archive:
+    - Warn before merging destructive deltas in specs/.
