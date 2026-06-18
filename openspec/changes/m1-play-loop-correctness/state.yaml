@@ -28,6 +28,7 @@ dependencies:
   compile_probe: passed # firstIndex+remove verified to compile + behave
   judgment_day: approved # R3: 0 CRITICAL, 0 HIGH, 5 drift WARNING all fixed
   apply: done # 2 commits; reviewer APPROVED; 85 tests pass
+  verify: done # PASS WITH WARNINGS; 10/13 compliant, 3 PARTIAL
 
 scope:
   items: [M1-1, M1-4]
