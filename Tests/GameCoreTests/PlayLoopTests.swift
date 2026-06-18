@@ -361,4 +361,103 @@ final class PlayLoopTests: XCTestCase {
         XCTAssertTrue(state.players[0].empireHand.contains("res_a"),
                       "res_a should still be in hand")
     }
+
+    // MARK: - Coverage gap closures (verify-report S4/S5/S6 PARTIAL → COMPLIANT)
+
+    // --- S4: single-copy hand emptied to zero (was only proven for 2→1) ---
+    func testSingleCopyHandEmptiesToZero() {
+        var state = makeState(
+            empireHand: ["res_a"],
+            resources: [ResourceInPlay(cardId: "start", production: ResourceAmount(food: 3, wood: 0, gold: 0), isReady: true)],
+            cards: [
+                "res_a": Card(id: "res_a", name: "res_a", civilization: .mongoles,
+                              type: .resource, cost: ResourceAmount(food: 2, wood: 0, gold: 0),
+                              production: ResourceAmount(food: 1, wood: 0, gold: 0))
+            ]
+        )
+        var counters = LiveCounters()
+        let engine = makeEngine()
+        let result = engine.perform(action: .playResource(cardId: "res_a"), state: &state,
+                                     playerIdx: 0, counters: &counters)
+        XCTAssertTrue(result.performed, "play should succeed")
+        XCTAssertTrue(state.players[0].empireHand.isEmpty,
+                      "single-copy hand should be emptied (S4: single-copy unaffected in count)")
+    }
+
+    // --- S5: remaining copy after a play is still playable (Judgment Day F11) ---
+    func testRemainingCopyAfterPlayIsStillPlayable() {
+        var state = makeState(
+            empireHand: ["res_a", "res_a"],
+            resources: [ResourceInPlay(cardId: "start", production: ResourceAmount(food: 5, wood: 0, gold: 0), isReady: true)],
+            cards: [
+                "res_a": Card(id: "res_a", name: "res_a", civilization: .mongoles,
+                              type: .resource, cost: ResourceAmount(food: 2, wood: 0, gold: 0),
+                              production: ResourceAmount(food: 2, wood: 0, gold: 0))
+            ]
+        )
+        var counters = LiveCounters()
+        let engine = makeEngine()
+
+        // First play on turn N: removes one copy.
+        let first = engine.perform(action: .playResource(cardId: "res_a"), state: &state,
+                                    playerIdx: 0, counters: &counters)
+        XCTAssertTrue(first.performed, "first play should succeed")
+        XCTAssertEqual(state.players[0].empireHand, ["res_a"],
+                       "one copy should remain after first play")
+
+        // The flag is now set for this turn; reset it to simulate a new turn
+        // so the remaining copy can be played (M1-4 only blocks same-turn repeats).
+        state.players[0].hasDeployedResourceThisTurn = false
+
+        // Second play on the SAME card id: must succeed and empty the hand.
+        // This pins that firstIndex+remove(at:) doesn't corrupt the array on
+        // the second invocation, and the guard doesn't reject a legitimate
+        // second copy (Judgment Day F11).
+        let second = engine.perform(action: .playResource(cardId: "res_a"), state: &state,
+                                     playerIdx: 0, counters: &counters)
+        XCTAssertTrue(second.performed, "second play on remaining copy should succeed")
+        XCTAssertTrue(state.players[0].empireHand.isEmpty,
+                      "remaining copy should be removed — hand empty")
+    }
+
+    // --- S6: empty hand rejects ALL play action types, no crash ---
+    func testEmptyHandRejectsAllPlayActions() {
+        var state = makeState(
+            empireHand: [],
+            tacticsHand: [],
+            resources: [ResourceInPlay(cardId: "start", production: ResourceAmount(food: 3, wood: 0, gold: 0), isReady: true)],
+            cards: [
+                "res_a": Card(id: "res_a", name: "res_a", civilization: .mongoles,
+                              type: .resource, cost: ResourceAmount(food: 2, wood: 0, gold: 0)),
+                "unit_a": Card(id: "unit_a", name: "unit_a", civilization: .mongoles,
+                               type: .unit, cost: ResourceAmount(food: 2, wood: 0, gold: 0),
+                               stats: Stats(attack: 2, defense: 2)),
+                "bldg_a": Card(id: "bldg_a", name: "bldg_a", civilization: .mongoles,
+                               type: .building, cost: ResourceAmount(food: 2, wood: 0, gold: 0)),
+                "tac_a": Card(id: "tac_a", name: "tac_a", civilization: .mongoles,
+                              type: .order, effects: [.revealTacticsTop(count: 1)])
+            ]
+        )
+        var counters = LiveCounters()
+        let engine = makeEngine()
+
+        // Empty empire hand: resource / unit / building all rejected.
+        let resourceResult = engine.perform(action: .playResource(cardId: "res_a"), state: &state,
+                                playerIdx: 0, counters: &counters)
+        let unitResult = engine.perform(action: .playUnit(cardId: "unit_a"), state: &state,
+                                playerIdx: 0, counters: &counters)
+        let buildingResult = engine.perform(action: .playBuilding(cardId: "bldg_a"), state: &state,
+                                playerIdx: 0, counters: &counters)
+        // Empty tactics hand: tactic rejected.
+        let tacticResult = engine.perform(action: .playTactic(cardId: "tac_a"), state: &state,
+                                playerIdx: 0, counters: &counters)
+
+        XCTAssertFalse(resourceResult.performed, "playResource on empty hand must be rejected")
+        XCTAssertFalse(unitResult.performed, "playUnit on empty hand must be rejected")
+        XCTAssertFalse(buildingResult.performed, "playBuilding on empty hand must be rejected")
+        XCTAssertFalse(tacticResult.performed, "playTactic on empty tactics hand must be rejected")
+        XCTAssertTrue(resourceResult.continueTurn && unitResult.continueTurn && buildingResult.continueTurn && tacticResult.continueTurn,
+                      "turn must continue after each rejection")
+        // No crash reaching this point is itself the S6 invariant.
+    }
 }
