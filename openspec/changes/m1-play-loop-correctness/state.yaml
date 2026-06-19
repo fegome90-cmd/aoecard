@@ -22,12 +22,12 @@ dependencies:
   spec: done
   design: done
   tasks: done
-  compile_probe: passed        # firstIndex+remove verified by compile probe
-  judgment_day: approved       # R3: 0 CRITICAL after user-caught blocker fix
-  apply: done                  # M1-1 cb837be + M1-4 82c6623 + AI fix 415d349
-  verify: passed               # regenerated report: 89 tests, 13/13 COMPLIANT
-  sync: pending                # next SDD phase
-  archive: blocked             # needs sync
+  compile_probe: passed # firstIndex+remove verified by compile probe
+  judgment_day: approved # R3: 0 CRITICAL after user-caught blocker fix
+  apply: done # M1-1 cb837be + M1-4 82c6623 + AI fix 415d349
+  verify: passed # regenerated report: 89 tests, 13/13 COMPLIANT
+  sync: pending # next SDD phase
+  archive: blocked # needs sync
 
 scope:
   items: [M1-1, M1-4]
@@ -43,13 +43,13 @@ artifacts:
   exploration_ref: docs/sprint-m1-rules-fidelity/tasklist.md
 
 commits:
-  impl_m1_1: cb837be   # fix(core): M1-1 single-copy removal
-  impl_m1_4: 82c6623   # fix(core): M1-4 one resource per turn
+  impl_m1_1: cb837be # fix(core): M1-1 single-copy removal
+  impl_m1_4: 82c6623 # fix(core): M1-4 one resource per turn
   sdd_artifacts: f656c1e
   coverage_gaps: db3695e
-  stale_verify: 00dea36  # superseded by 711d191
-  corrective: 415d349    # fix(core): StrategyAI honors one-resource-per-turn
-  verify_regen: 711d191  # docs(openspec): regenerated verify report
+  stale_verify: 00dea36 # superseded by 711d191
+  corrective: 415d349 # fix(core): StrategyAI honors one-resource-per-turn
+  verify_regen: 711d191 # docs(openspec): regenerated verify report
 
 known_gaps_post_archive:
   - suite_wallclock_grew: >
