@@ -76,25 +76,36 @@ The pasted `AOECARD_ROADMAP.md` is **partially stale**. Verified status of each 
 
 ---
 
-## Phase 2 — Play-loop core correctness (M1-1, M1-4) ⚠ CRITICAL
+## Phase 2 — Play-loop core correctness (M1-1, M1-4) ✅ DONE
 
-> These invalidate any human game or neural training. **Do first.** Both touch `RulesEngine.perform()` → one cohesive change.
+> These invalidated any human game or neural training. **Was done first.** Both touched `RulesEngine.perform()` → one cohesive change.
 
-**SDD change**: `m1-play-loop-correctness` · **Effort**: ~3-4h · **Status**: `pending`
+**SDD change**: `m1-play-loop-correctness` · **Effort**: ~3-4h (actual: larger — 10 commits, 2 reopens) · **Status**: `done` (archived 2026-06-18 → `openspec/changes/archive/2026-06-18-m1-play-loop-correctness/`)
 
-- [ ] **M1-1** — Remove ONE copy on play (not all)
-  - **Bug**: `player.empireHand.removeAll { $0 == id }` deletes every copy sharing that id.
-  - **Sites (4)**: `RulesEngine.swift` — `playResource` (~`:215`), `playUnit` (~`:231`), `playBuilding+Technology+Special` (~`:249`), `playTactic` (`:279` uses `tacticsHand.removeAll`).
-  - **Fix**: `removeAll` → `removeFirst { $0 == id }` at all 4 sites.
-  - **RED test**: hand with 2 copies of same id; play one; assert 1 remains in hand.
-  - **Dependencies**: none (pairs with M1-4 in same change).
+- [x] **M1-1** — Remove ONE copy on play (not all) ✅
+  - **Bug**: `player.empireHand.removeAll { $0 == id }` deleted every copy sharing that id.
+  - **Sites (4)**: `RulesEngine.swift` — `playResource`, `playUnit`, `playBuilding+Technology+Special`, `playTactic` (`tacticsHand.removeAll`).
+  - **Fix applied** (commit `cb837be`): `firstIndex(of: id)` fused into the existing guard + `remove(at: handIndex)` after commit. NOTE: an earlier plan prescribed `removeFirst(where:)` — **nonexistent API in Swift stdlib**, caught by user audit. The fused `firstIndex+remove(at:)` simultaneously does single-copy removal + hand-membership check + graceful reject (no trap).
+  - **Tests**: `testPlayResourceRemovesExactlyOneCopy`, `testPlayUnitRemovesExactlyOneCopy`, `testPlayBuildingRemovesExactlyOneCopy`, `testPlayTacticRemovesExactlyOneCopy`, plus not-in-hand and payment-failure regressions.
 
-- [ ] **M1-4** — One resource per turn
-  - **Bug**: `takeTurn` loops up to `maxActions = 8` (`RulesEngine.swift:127`) with no per-type limit; a player can deploy multiple resources/turn.
-  - **Fix**: add `hasDeployedResourceThisTurn: Bool` to `PlayerState`; reset at the start of `takeTurn`; reject `playResource` when already true.
-  - **Files**: `PlayerState.swift` (new field), `RulesEngine.swift` (reset + validation).
-  - **RED test**: deploy resource, attempt second → action rejected (not performed), turn continues.
-  - **Dependencies**: none.
+- [x] **M1-4** — One resource per turn ✅
+  - **Bug**: `takeTurn` looped up to `maxActions = 8` with no per-type limit; a player could deploy multiple resources/turn.
+  - **Fix applied** (commit `82c6623`): internal `var hasDeployedResourceThisTurn = false` on `PlayerState`; reset as first line of `takeTurn`; `.playResource` uses 3-guard chain `handIndex → !flag → payment`. Flag set only on successful deploy. Orthogonal to `isReady` (AF-02).
+  - **Tests**: `testSecondResourceSameTurnIsRejected`, `testFirstResourceInTurnSucceeds`, `testFlagResetsEachTurn`, `testFailedPaymentDoesNotConsumeSlot` (with no-tap/no-waste assertions).
+
+- [x] **Integration gap (unplanned, found by user audit)** — `StrategyAI.legalActions` producer-side fix
+  - **Bug found post-apply**: M1-4 was enforced in `perform()` but `StrategyAI.legalActions()` still offered payable resources after the slot was used → AI burned the 4-consecutive-failure budget → turn early-exit → simulator distortion.
+  - **Fix applied** (commit `415d349`): `case .resource` in `legalActions()` now gated by `if !player.hasDeployedResourceThisTurn`. Producer and consumer share one truth.
+  - **Test**: `testAIContinuesWithUnitAfterFirstResource` (integration, full turn loop).
+  - **Lesson**: when a change introduces a NEW legality criterion, the legal-action PRODUCER must learn it in the same change. Not M2 scope — intrinsic to M1-4.
+
+**Validation trail**: 3 quorum gates (spec/design/tasks) + 3 judgment-day rounds (user caught 1 CRITICAL) + verify (13/13 COMPLIANT, 89 tests) + 4-skill audit quartet × 2 rounds (glm-5.2) + GitHub Actions CI (run 27801312041, macOS-15, 4m35s, success) + user manual audit.
+
+**Known gaps carried forward** (in archive-report.md):
+
+- Suite wall-clock 140s → ~640s local / 4m35s CI (correct behavior, not regression).
+- Determinism scoped to "observable results" (UUID defaults still break byte-equality).
+- 5 early commits landed direct to main without PR/CI (CI now in place).
 
 ---
 
@@ -210,7 +221,7 @@ All ──→ Phase 6 (M1-5 verify + M1-GATE)
 |---|---|---|---|
 | 0 | `m0-baseline-freeze` | M0.1 | ~0.5h |
 | 1 | `m1-data-cleanup` | M1-12 | ~2-3h |
-| 2 | `m1-play-loop-correctness` | M1-1, M1-4 | ~3-4h |
+| 2 | `m1-play-loop-correctness` ✅ | M1-1, M1-4 | done 2026-06-18 (archived) |
 | 3 | `m1-destinies-provinces` | M1-10, M1-8 | ~4-5h |
 | 4 | `m1-tactics-stronghold` | M1-6, M1-7 | ~5-6h |
 | 5 | `m1-effects-metrics` | M1-9, M1-11 | ~3-4h |
@@ -224,3 +235,4 @@ All ──→ Phase 6 (M1-5 verify + M1-GATE)
 | Date | Change |
 |---|---|
 | 2026-06-17 | Initial task list created from reality-check analysis (HEAD `2382cd6`). M1-3 marked done. 6 SDD changes scoped. |
+| 2026-06-18 | **Phase 2 (`m1-play-loop-correctness`) DONE + archived.** M1-1 (single-copy removal) + M1-4 (one resource per turn) + unplanned StrategyAI.legalActions integration fix. 10 commits, 2 reopens (first: user caught nonexistent `removeFirst(where:)` API that 4 AI judges + I missed; second: user audit caught producer-side gap that 4-skill quartet + verify missed). Validated by 3 quorum gates + 3 judgment-day rounds + verify (13/13, 89 tests) + 4-skill audit × 2 + GitHub Actions CI (first CI run on the repo). Delta spec synced to `openspec/specs/play-loop/spec.md`; change archived to `openspec/changes/archive/2026-06-18-m1-play-loop-correctness/`. Known gaps: suite wall-clock 140s→~640s (correct behavior); determinism scoped to observable results; early commits without CI. |
