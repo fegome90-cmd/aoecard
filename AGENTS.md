@@ -73,6 +73,6 @@ Reproduce generated outputs; never store them. Stage explicit paths only — nev
 ## References
 
 - `README.md` — project overview and badges
-- `docs/audit-checklist-vs-delivered.md` — audit findings traceability (which fixes landed, which are open)
-- `docs/tech-debt.md` — deferred structural advisories (`resolve()` complexity, `writeRun` params, `producesKind` tuple)
-- `docs/sprint-m1-rules-fidelity/tasklist.md` — active M1 sprint backlog (6 SDD changes, verified per-item code references)
+- `docs/audits/2026-06-17-audit-checklist-vs-delivered.md` — audit findings traceability (which fixes landed, which are open)
+- `docs/architecture/tech-debt.md` — deferred structural advisories (`resolve()` complexity, `writeRun` params, `producesKind` tuple)
+- `docs/sprints/m1-rules-fidelity/tasklist.md` — active M1 sprint backlog (6 SDD changes, verified per-item code references)

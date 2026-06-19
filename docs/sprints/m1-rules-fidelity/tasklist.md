@@ -82,7 +82,7 @@ The roadmap says: *"1.000 partidas aleatorias sin crash, acciones ilegales ni di
 - [ ] **M0.1** — Freeze baseline + executable reglamento
   - **Deliverable**: git tag `v0.6-baseline`; `docs/reglamento-minimo.md` (fases, pagos, combate, información oculta, victoria).
   - **Dependencies**: none.
-  - **Acceptance**: tag exists; reglamento doc covers the 5 areas; `docs/audit-checklist-vs-delivered.md` referenced as M0 output.
+  - **Acceptance**: tag exists; reglamento doc covers the 5 areas; `docs/audits/2026-06-17-audit-checklist-vs-delivered.md` referenced as M0 output.
 
 ---
 

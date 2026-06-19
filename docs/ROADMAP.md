@@ -9,7 +9,7 @@
 | Milestone | Estado | Cobertura |
 |---|---|---|
 | **M0** — Congelar baseline y reglas | 🟡 Parcial | git tag `v0.6-baseline` pendiente; reglamento mínimo ejecutable pendiente |
-| **M1** — Rules Fidelity | 🔴 En progreso (2/14 items done) | M1-1, M1-3, M1-4 ✅; 9 abiertos; ver `docs/sprint-m1-rules-fidelity/tasklist.md` |
+| **M1** — Rules Fidelity | 🔴 En progreso (2/14 items done) | M1-1, M1-3, M1-4 ✅; 9 abiertos; ver `docs/sprints/m1-rules-fidelity/tasklist.md` |
 | **M2** — Legal Actions | ⏳ Pendiente | bloqueado por M1 |
 | **M3** — Eventos y replay | ⏳ Pendiente | bloqueado por M1/M2 |
 | **M4** — Partida humana en terminal | ⏳ Pendiente | bloqueado por M2/M3 |
@@ -39,7 +39,7 @@
 
 ## M1 — Rules Fidelity
 
-> **Detalle completo**: `docs/sprint-m1-rules-fidelity/tasklist.md` (reality-check con evidencia file:line, dependency graph, effort summary).
+> **Detalle completo**: `docs/sprints/m1-rules-fidelity/tasklist.md` (reality-check con evidencia file:line, dependency graph, effort summary).
 
 Corregir antes de cualquier nuevo balance. **Estado real (2026-06-19)**:
 
@@ -193,7 +193,7 @@ En cada sesión: detectar estrategia dominante, detectar estrategia muerta, iden
 
 ## Tech-debt que afecta al roadmap
 
-Registrados en `docs/tech-debt.md` y en `openspec/changes/archive/`:
+Registrados en `docs/architecture/tech-debt.md` y en `openspec/changes/archive/`:
 
 | Item | Origen | Impacto en roadmap |
 |---|---|---|
