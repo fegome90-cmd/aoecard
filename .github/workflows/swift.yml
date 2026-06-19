@@ -1,0 +1,18 @@
+name: Swift CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build (library + tests)
+        run: swift build --build-tests
+      - name: Test
+        run: swift test
+      - name: Validate simulation CLI
+        run: swift run SimCLI validate

@@ -1,17 +1,15 @@
 # state.yaml — DAG state for m1-play-loop-correctness
-# Survives compaction. Orchestrator is the authority; agents update via phases.
+# Orchestrator is the authority; agents update via phases.
 change: m1-play-loop-correctness
 milestone: M1
-phase: design
-status: in_progress
+phase: verify
+status: completed
 created: 2026-06-17
-reopened: 2026-06-17
+last_updated: 2026-06-18
 
-# REOPENED after user review caught a CRITICAL compile blocker:
-# removeFirst(where:) does NOT exist in Swift stdlib (verified by compile).
-# 4 AI judges + orchestrator propagated the error undetected. All approvals
-# based on the non-compiling plan are REVOKED. Fixes in progress; gates must
-# be re-run after.
+# History: opened 2026-06-17; reopened 2026-06-18 after user-caught CRITICAL
+# (removeFirst(where:) nonexistent in Swift stdlib). Re-verified PASS after
+# corrective fix for StrategyAI.legalActions producer-side gap (commit 415d349).
 
 preflight:
   artifact_store: openspec
@@ -20,15 +18,16 @@ preflight:
   review_budget_lines: 300
 
 dependencies:
-  proposal: done # reopened fix applied (approach, risks, rollback)
-  exploration: done
-  spec: done # S7 no-effects, S8 economy, determinism firstIndex
-  design: done # D1 firstIndex+remove; D2 Codable; D4 wording
-  tasks: done # behavioral RED, single guard order, R3 cleanups
-  compile_probe: passed # firstIndex+remove verified to compile + behave
-  judgment_day: approved # R3: 0 CRITICAL, 0 HIGH, 5 drift WARNING all fixed
-  apply: done # 2 commits; reviewer APPROVED; 85 tests pass
-  verify: done # PASS WITH WARNINGS; 10/13 compliant, 3 PARTIAL
+  proposal: done
+  spec: done
+  design: done
+  tasks: done
+  compile_probe: passed        # firstIndex+remove verified by compile probe
+  judgment_day: approved       # R3: 0 CRITICAL after user-caught blocker fix
+  apply: done                  # M1-1 cb837be + M1-4 82c6623 + AI fix 415d349
+  verify: passed               # regenerated report: 89 tests, 13/13 COMPLIANT
+  sync: pending                # next SDD phase
+  archive: blocked             # needs sync
 
 scope:
   items: [M1-1, M1-4]
@@ -43,14 +42,20 @@ artifacts:
   verify: openspec/changes/m1-play-loop-correctness/verify-report.md
   exploration_ref: docs/sprint-m1-rules-fidelity/tasklist.md
 
-# Fix checklist (user dictamen 2026-06-17):
-#  [1 CRITICAL] removeFirst(where:) -> firstIndex(of:) + remove(at:)
-#  [2] proposal hand-membership self-contradiction
-#  [3] tasks 2.2 vs 2.6 incompatible guard orders -> single sequence
-#  [4] M1-4 TDD order: RED = behavioral second-resource-rejected
-#  [5] public var -> internal var (no public API surface change)
-#  [6] Codable synthesis explanation corrected
-#  [7] rollback/commits: 2 commits, selective revert, no "single git revert"
-#  [8] test fixtures precision (empty hands for reset, econ chain for slot)
-#  [9] drop absolute test count from DoD
-#  [10] state semantics fixed (this file)
+commits:
+  impl_m1_1: cb837be   # fix(core): M1-1 single-copy removal
+  impl_m1_4: 82c6623   # fix(core): M1-4 one resource per turn
+  sdd_artifacts: f656c1e
+  coverage_gaps: db3695e
+  stale_verify: 00dea36  # superseded by 711d191
+  corrective: 415d349    # fix(core): StrategyAI honors one-resource-per-turn
+  verify_regen: 711d191  # docs(openspec): regenerated verify report
+
+known_gaps_post_archive:
+  - suite_wallclock_grew: >
+      140s -> ~640s; turns no longer early-exit on 4-failure budget.
+      Correct behavior the fix exposes, not a regression.
+      Track if simulation cost becomes a bottleneck.
+  - no_remote_ci: >
+      5 commits landed directly to main without PR/CI. Add
+      .github/workflows/swift.yml for future changes.

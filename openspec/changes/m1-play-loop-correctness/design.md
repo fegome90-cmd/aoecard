@@ -201,5 +201,3 @@ no YAML, no persisted state touched.
 
 - None blocking. D2's "re-derive on load" becomes concrete only when M4 adds
   save/load; until then the field is a runtime-only default-false Bool.
-'s "re-derive on load" becomes concrete only when M4 adds
-  save/load; until then the field is a runtime-only default-false Bool.

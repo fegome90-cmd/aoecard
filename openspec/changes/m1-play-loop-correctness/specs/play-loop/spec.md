@@ -155,6 +155,10 @@ and the turn MUST continue (same contract as a failed payment).
 - Card removal order MUST remain deterministic: `firstIndex(of:)` + `remove(at:)`
   removes the first matching copy in existing hand array order, which is
   seed-derived. No sort or shuffle is introduced by this change.
-- Same seed + same action sequence SHALL produce byte-identical game state and
-  log before and after this change, modulo the corrected hand contents.
-e, modulo the corrected hand contents.
+- Same seed + same action sequence SHALL produce identical OBSERVABLE game
+  results (winner, rounds, decisive counters) before and after this change.
+  NOTE: full byte-identical state comparison is deferred — entity IDs still
+  default to `UUID()` (non-deterministic), so only the observable-result
+  subset is pinned by `SimulationTests.testSameSeedProducesIdenticalResult`.
+  A future change should either reduce the contract to "observable determinism"
+  globally or introduce a deterministic `EntityID` and compare full snapshots.
