@@ -26,8 +26,9 @@ dependencies:
   judgment_day: approved # R3: 0 CRITICAL after user-caught blocker fix
   apply: done # M1-1 cb837be + M1-4 82c6623 + AI fix 415d349
   verify: passed # regenerated report: 89 tests, 13/13 COMPLIANT
-  sync: pending # next SDD phase
-  archive: blocked # needs sync
+  ci: passed # GitHub Actions run 27801312041, macOS-15, 4m35s, success
+  sync: done # 2026-06-18: delta spec copied to openspec/specs/play-loop/spec.md
+  archive: done # 2026-06-18: moved to openspec/changes/archive/2026-06-18-...
 
 scope:
   items: [M1-1, M1-4]
